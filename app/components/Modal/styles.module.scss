@@ -1,0 +1,133 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+  z-index: 1000;
+  &Container {
+    position: relative;
+    width: 420px !important;
+    height: 100% !important;
+    background: #fff;
+    box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+    padding: 40px 0 32px 0;
+    overflow-y: scroll;
+    z-index: 5;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    gap: 66px;
+    display: flex;
+    flex-direction: column;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    @media (max-width: 620px) {
+      width: 100% !important;
+    }
+  }
+  &Top {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 24px;
+  }
+  &Controls {
+    // position: absolute;
+    // top: 0px;
+    // right: 0px;
+    cursor: pointer;
+    z-index: 2;
+    @media (max-width: 992px) {
+      top: 0px;
+    }
+    @media (max-width: 500px) {
+      svg {
+        height: 30px !important;
+        width: 30px !important;
+      }
+    }
+  }
+  &Main {
+    height: 100%;
+    max-height: 80vh;
+    h2 {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: normal;
+      letter-spacing: -0.48px;
+      color: #26333d;
+      @media (max-width: 992px) {
+        font-size: 20px;
+        line-height: 29px;
+      }
+      @media (max-width: 330px) {
+        font-size: 16px;
+        line-height: 22px;
+      }
+    }
+  }
+
+  &Bottom {
+    width: 100%;
+
+    &LinksContainer {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    &Copyright {
+      color: rgba(51, 51, 51, 0.54);
+
+      font-family: Inter;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.52px;
+      letter-spacing: 0.03999999910593033px;
+      text-align: center;
+    }
+  }
+
+  &ContainerFull {
+    border: none;
+    position: relative;
+    left: 50%;
+    outline: none;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90% !important;
+    height: 60% !important;
+    background: #000 !important;
+    z-index: 5;
+  }
+  &MainFull {
+    border: none;
+    outline: none;
+    height: 100% !important;
+    background: #000 !important;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.3);
+
+    &.transparent {
+      background: transparent;
+    }
+  }
+}

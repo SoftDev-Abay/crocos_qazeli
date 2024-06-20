@@ -1,0 +1,67 @@
+@use "../../../styles/colors.scss" as c;
+
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: Montserrat;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+
+  &:hover {
+    background-color: c.$color-primary;
+    color: c.$color-white;
+  }
+
+  &.size-sm {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  &.size-md {
+    padding: 14px 28px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  &.size-lg {
+    padding: 25px 50px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  &.color-primary {
+    background-color: c.$color-primary;
+    color: c.$color-white;
+  }
+
+  &.color-accent {
+    background-color: c.$color-accent;
+    color: c.$color-white;
+  }
+
+  &.color-highlight {
+    background-color: c.$color-highlight;
+    color: c.$color-text;
+  }
+
+  &.color-muted {
+    background-color: c.$color-muted;
+    color: c.$color-text;
+  }
+
+  &.color-success {
+    background-color: c.$color-success;
+    color: c.$color-white;
+  }
+
+  &.color-danger {
+    background-color: c.$color-danger;
+    color: c.$color-white;
+  }
+}

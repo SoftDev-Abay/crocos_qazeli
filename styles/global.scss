@@ -1,0 +1,29 @@
+// if this is present then it deletes spacing for html coming from backend
+@use "./colors.scss" as c;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: c.$color-text;
+  letter-spacing: -0.02em;
+}
+
+body {
+  background-color: #f0f0f0;
+  color: rgba(51, 51, 51, 1);
+}
+
+.highlighted {
+  color: rgba(110, 182, 60, 1);
+}
+
+.admin-panel-input {
+  padding: 11px 15px !important;
+  border-color: c.$color-text !important;
+  color: c.$color-text !important;
+
+  &:focus {
+    border: 1px solid c.$color-accent !important;
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "wrapper": {
+    "navbar": {
+      "go_back_button": "Go home"
+    },
+    "footer": {
+      "copyright": "© Eurasia Group 2022"
+    },
+    "root_modal": {
+      "nav": {
+        "about": "About us",
+        "goal": "Goal",
+        "whats_new": "What's new"
+      },
+      "button_contact_us": "Contact us",
+      "copyright": "© Eurasia Group 2022"
+    }
+  },
+  "components": {
+    "sections": {
+      "hero": {
+        "contact_button": "Contact us"
+      },
+      "points": {
+        "title": {
+          "first": "We're in",
+          "second": "digits"
+        }
+      }
+    }
+  },
+  "pages": {
+    "about": {
+      "solutions": {
+        "header": {
+          "title": "UNIQUE SOLUTIONS",
+          "description": "Over these years, we have created a developed network to provide farmers with unique integrated solutions in agriculture in Kazakhstan and Kyrgyzstan"
+        }
+      }
+    },
+    "news": {
+      "header": {
+        "title": "What's new",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown"
+      },
+      "filters": {
+        "partners": "Partners news",
+        "agriculture": "News in agriculture"
+      }
+    },
+    "contact_us": {
+      "contact_form": {
+        "confidentiality": {
+          "agree": "I agree",
+          "highlighted": "with privacy policy"
+        },
+        "button_submit": "Submit",
+        "errors": {
+          "required": "This field is required",
+          "email": "Invalid email, please use the following format: john.smith@example.com",
+          "phone": "Phone number is not valid. Please use the following format: +7 (123) 456-78-90",
+          "minField2": "Must be at least 2 characters long",
+          "minField5": "Must be at least 5 characters long",
+          "maxField50": "Must be at most 50 characters long",
+          "agree": "You must agree to the privacy policy"
+        },
+        "inputs": {
+          "name": {
+            "placeholder": "Name",
+            "label": "Name"
+          },
+          "email": {
+            "placeholder": "Email",
+            "label": "Email"
+          },
+          "phone": {
+            "placeholder": "Phone",
+            "label": "Phone"
+          }
+        },
+        "header": "Contact us"
+      }
+    }
+  }
+}

@@ -1,0 +1,151 @@
+@use "../../../../styles/colors.scss" as c;
+
+.wrapper-admin-panel {
+  min-height: 100vh;
+  width: 100%;
+  background-color: c.$color-white;
+  display: flex;
+  width: 100%;
+  // gap: 47px;
+
+  .sidebar {
+    box-shadow: 15px 0px 60px 0px rgba(0, 0, 0, 0.02);
+
+    max-width: 343px;
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 31px 35px 32px 35px;
+      background-color: c.$color-background;
+      .logout {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        span {
+          font-family: Montserrat;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 17.07px;
+          text-transform: uppercase;
+          color: c.$color-primary;
+        }
+      }
+    }
+    .profile-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 35px 20px 35px;
+
+      //  shadow acting as a border bottom
+      box-shadow: 0px 1px 0px 0px c.$color-background;
+
+      .info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        .icon-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: c.$color-primary;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          span {
+            color: c.$color-white;
+            font-family: Montserrat;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 17.07px;
+          }
+        }
+        .text {
+        }
+      }
+    }
+    nav {
+      padding: 50px 35px 30px 35px;
+      box-shadow: 0px 1px 0px 0px c.$color-background;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+
+      .link {
+        display: flex;
+        position: relative;
+        gap: 15px; /* More reasonable gap in pixels */
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 16px;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 17.07px;
+        padding: 10px 0;
+      }
+
+      .link p {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      .link_with_icon {
+        justify-content: space-between;
+      }
+      .icon-text-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .nested-links-container {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding-left: calc(35px - 4px);
+
+        .link {
+          padding: 4px 4px 6px 4px;
+          border-radius: 7px;
+
+          &.active {
+            background-color: c.$color-background;
+          }
+        }
+      }
+
+      .notification-number-badge {
+        background-color: c.$color-primary;
+        border-radius: 50%;
+        width: 21px;
+        height: 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span {
+          color: c.$color-white;
+          font-family: Montserrat;
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 15.85px;
+        }
+      }
+    }
+  }
+  .content {
+    flex: 1 1 auto;
+    padding: 31px 66px 31px 41px;
+  }
+}

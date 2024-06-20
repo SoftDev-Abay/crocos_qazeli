@@ -1,0 +1,29 @@
+@use "../../../styles/colors.scss" as c;
+
+.tabs-container {
+  //   box shadow acting as a bottom border
+  box-shadow: 0px 1px 0px 0px c.$color-background;
+  display: flex;
+  margin-bottom: 20px;
+
+  .tab-item {
+    cursor: pointer;
+    padding: 10px 8px 10px 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17.07px;
+    color: c.$color-text;
+    &.active {
+      color: c.$color-primary;
+      border-bottom: 2px solid c.$color-primary;
+    }
+    &:hover {
+      color: c.$color-primary;
+    }
+  }
+}

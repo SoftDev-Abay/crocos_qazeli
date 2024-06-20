@@ -1,0 +1,85 @@
+{
+  "wrapper": {
+    "navbar": {
+      "go_back_button": "На главную"
+    },
+    "footer": {
+      "copyright": "© Eurasia Group 2022"
+    },
+    "root_modal": {
+      "nav": {
+        "about": "О нас",
+        "goal": "Цель",
+        "whats_new": "Что нового"
+      },
+      "button_contact_us": "Связаться с нами",
+      "copyright": "© Eurasia Group 2022"
+    }
+  },
+  "components": {
+    "sections": {
+      "hero": {
+        "contact_button": "Связаться с нами"
+      },
+      "points": {
+        "title": {
+          "first": "Мы в",
+          "second": "цифрах"
+        }
+      }
+    }
+  },
+  "pages": {
+    "about": {
+      "solutions": {
+        "header": {
+          "title": "УНИКАЛЬНЫЕ РЕШЕНИЯ",
+          "description": "За эти годы мы создали развитую сеть по обеспечению фермеров уникальными комплексными решениями в сельском хозяйстве Казахстана и Кыргызстана"
+        }
+      }
+    },
+    "news": {
+      "header": {
+        "title": "Что нового",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown"
+      },
+      "filters": {
+        "partners": "Новости партнеров",
+        "agriculture": "Новости в сельском хозяйстве"
+      }
+    },
+    "contact_us": {
+      "contact_form": {
+        "confidentiality": {
+          "agree": "Я соглашаюсь",
+          "highlighted": "с политикой конфиденциальности"
+        },
+        "button_submit": "Отправить",
+        "inputs": {
+          "name": {
+            "placeholder": "Имя",
+            "label": "Имя"
+          },
+          "email": {
+            "placeholder": "Email",
+            "label": "Email"
+          },
+          "phone": {
+            "placeholder": "Телефон",
+            "label": "Телефон"
+          }
+        },
+        "errors": {
+          "required": "Это поле обязательно для заполнения",
+          "email": "Неверный адрес электронной почты, пожалуйста, используйте следующий формат: john.smith@example.com",
+          "phone": "Номер телефона недействителен. Пожалуйста, используйте следующий формат: +7 (123) 456-78-90",
+          "minField2": "Должно быть не менее 2 символов",
+          "minField5": "Должно быть не менее 5 символов",
+          "maxField50": "Должно быть не более 50 символов",
+          "agree": "Вы должны согласиться с политикой конфиденциальности"
+        },
+        "header": "Связаться с нами"
+      }
+    }
+  }
+}

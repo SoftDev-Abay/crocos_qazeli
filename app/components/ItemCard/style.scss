@@ -1,0 +1,30 @@
+@use "../../../styles/colors.scss" as c;
+
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .info-wrapper {
+    display: flex;
+    gap: 70px;
+    .data-item {
+      .label {
+        font-family: Montserrat;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 14.63px;
+        margin-bottom: 5px;
+      }
+      .value {
+        font-family: Montserrat;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.5px;
+      }
+    }
+  }
+  .actions-wrapper {
+    display: flex;
+    gap: 20px;
+  }
+}

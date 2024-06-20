@@ -1,0 +1,17 @@
+.card {
+  box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(243, 246, 249, 1);
+  border-radius: 5px;
+
+  &.padding-small {
+    padding: 15px 15px 35px 15px;
+  }
+
+  &.padding-medium {
+    padding: 30px 25px 31px 25px;
+  }
+
+  &.padding-table {
+    padding: 15px 18px 47px 18px;
+  }
+}

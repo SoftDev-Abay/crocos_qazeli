@@ -6,9 +6,16 @@ import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AxiosProvider from "@/app/context/AxiosContext";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  const queryClient = new QueryClient();
 
   return (
     <AppCacheProvider {...pageProps}>
@@ -17,10 +24,12 @@ export default function App({ Component, pageProps }: AppProps) {
         timeZone="Europe/Vienna"
         messages={pageProps.messages}
       >
-        <AxiosProvider>
-          <ToastContainer />
-          <Component {...pageProps} />
-        </AxiosProvider>
+        <QueryClientProvider client={queryClient}>
+          <AxiosProvider>
+            <ToastContainer />
+            <Component {...pageProps} />
+          </AxiosProvider>
+        </QueryClientProvider>
       </NextIntlClientProvider>
     </AppCacheProvider>
   );

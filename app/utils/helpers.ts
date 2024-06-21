@@ -13,3 +13,25 @@ export const getCookieAccessToken = () => {
 export const getCookieRefreshToken = () => {
   return Cookies.get("refresh_token");
 };
+
+export function getPropByString(obj, propString) {
+  if (!propString) return obj;
+
+  let prop,
+    props = propString.split(".");
+
+  let i = 0;
+  let iLen = props.length - 1;
+
+  for (; i < iLen; i++) {
+    prop = props[i];
+
+    let candidate = obj[prop];
+    if (candidate !== undefined) {
+      obj = candidate;
+    } else {
+      break;
+    }
+  }
+  return obj[props[i]];
+}

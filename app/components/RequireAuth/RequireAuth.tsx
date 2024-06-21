@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useUserStore } from "@/app/store/useUserStore";
-import { useEffect } from "react";
+import { UseUserStore } from "@/app/store/useUserStore";
+import { useEffect, useState } from "react";
 
 interface RequireAuthProps {
   allowedRoles: string[];
@@ -12,17 +12,33 @@ const RequireAuth: React.FC<RequireAuthProps> = ({
   children,
 }) => {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
+  const user = UseUserStore((state) => state.currentUser);
+
+  const [rendered, setRendered] = useState(false);
 
   const role = user?.role?.slug;
 
-  useEffect(() => {
-    if (user || !role) {
-      router.push("/auth/sign-in");
-    }
-  }, [role]);
+  // console.log({
+  //   allowedRoles,
+  //   role,
+  //   user,
+  //   requiredRole: allowedRoles,
+  //   userIsAllowed: role && allowedRoles.includes(role),
+  // });
 
-  const content = allowedRoles.includes(role) ? children : null;
+  useEffect(() => {
+    setRendered(true);
+  }, []);
+
+  useEffect(() => {
+    if (rendered) {
+      if (!role || !allowedRoles.includes(role)) {
+        router.push("/auth/sign-in");
+      }
+    }
+  }, [user, rendered]);
+
+  const content = role && allowedRoles.includes(role) ? children : null;
 
   return <>{content}</>;
 };

@@ -26,5 +26,11 @@
   .actions-wrapper {
     display: flex;
     gap: 20px;
+
+    .action {
+      svg {
+        cursor: pointer;
+      }
+    }
   }
 }

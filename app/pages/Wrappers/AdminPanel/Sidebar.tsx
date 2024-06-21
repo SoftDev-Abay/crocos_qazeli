@@ -8,6 +8,9 @@ import NestedLinksBox from "./NestedLinksBox";
 import HouseIcon from "@/app/icons/HouseIcon";
 import BookmarkIcon from "@/app/icons/BookmarkIcon";
 import NotificationLink from "./NotificationLink";
+import { UseUserStore } from "@/app/store/useUserStore";
+import router, { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const links = {
   nestedLinks: [
@@ -22,20 +25,15 @@ const links = {
         },
         {
           title: "Места размещения",
-          url: "/admin-panel/hotel/accommodations",
+          url: "/admin-panel/hotel/placements",
         },
-
         {
-          title: "Тип номеров",
-          url: "/admin-panel/hotel/room-type",
+          title: "Тарифы",
+          url: "/admin-panel/hotel/tariffs",
         },
         {
           title: "Цены и предложения",
           url: "/admin-panel/hotel/prices",
-        },
-        {
-          title: "Данные места размещений",
-          url: "/admin-panel/hotel/accommodation",
         },
       ],
     },
@@ -51,6 +49,15 @@ const links = {
 };
 
 const Sidebar = () => {
+  const router = useRouter();
+
+  const logout = () => {
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+    UseUserStore.getState().setCurrentUser(null);
+    router.push("/auth/sign-in");
+  };
+
   return (
     <div className="sidebar">
       <div className="header">
@@ -61,7 +68,7 @@ const Sidebar = () => {
           height={39}
           className="logo"
         />
-        <div className="logout">
+        <div className="logout" onClick={logout}>
           <LogoutCurveIcon color="#156CBD" width={17} height={17} />
           <span>Logout</span>
         </div>

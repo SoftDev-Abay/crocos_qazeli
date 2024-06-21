@@ -1,56 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
 import ItemCard from "@/app/components/ItemCard/ItemCard";
 import Tabs from "@/app/components/Tabs/Tabs";
 import PageHeader from "@/app/components/PageHeader/PageHeader";
 import Button from "@/app/components/Button/Button";
-import useAllRooms from "@/app/hooks/useAllRooms";
-import { useRouter } from "next/router";
+import useAllPlacements from "@/app/hooks/useAlPlacements";
 import "./style.scss";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
 
+const PageHeaderProps = {
+  buttons: [
+    <Button onClick={() => {}} size="sm" color="primary">
+      Добавить
+    </Button>,
+  ],
+  title: "Места размещения",
+  goBack: false,
+};
+
 const itemLabels = [
   {
-    labelPath: "room_type.slug",
-    label: "Room Type",
+    labelPath: "address",
+    label: "Адрес",
   },
   {
     labelPath: "title",
-    label: "Title",
+    label: "Название",
   },
   {
     labelPath: "description",
-    label: "Description",
+    label: "Описание",
   },
+
   {
-    labelPath: "default_price",
-    label: "Default Price",
+    labelPath: "created_at",
+    label: "Дата создания",
   },
 ];
 
 const Page = () => {
-  const [currentTab, setCurrentTab] = useState(staticTabs[0]);
+  const [currentTab, setCurrentTab] = React.useState(staticTabs[0]);
 
-  const { data, isLoading } = useAllRooms({});
-
-  const router = useRouter();
-
-  const PageHeaderProps = {
-    buttons: [
-      <Button
-        onClick={() => {
-          router.push("/admin-panel/hotel/rooms/add");
-        }}
-        size="sm"
-        color="primary"
-      >
-        Добавить комнату
-      </Button>,
-    ],
-    title: "Rooms",
-    goBack: false,
-  };
+  const { data, isLoading } = useAllPlacements({});
 
   return (
     <AdminWrapper>
@@ -61,7 +53,7 @@ const Page = () => {
           tabs={staticTabs}
           setCurrentTab={setCurrentTab}
         /> */}
-        <div className="rooms-container">
+        <div className="placements-container">
           {!isLoading &&
             data?.map((room) => (
               <ItemCard

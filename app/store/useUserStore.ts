@@ -1,18 +1,30 @@
 import { create } from "zustand";
+import { IUser } from "../constants/UserTypes";
+import { persist } from "zustand/middleware";
 
-export interface UserStore {
-  user: any | null;
-  setUser: (user: any) => void;
-  removeUser: () => void;
+export interface IUseUsers {
+  currentUser: IUser | null;
+  setCurrentUser: Function;
+  getCurrentUser: Function;
 }
 
-const getUserFromLocalStorage = () => {
-  const user = localStorage.getItem("user");
-  return user ? JSON.parse(user) : null;
-};
-
-export const useUserStore = create<UserStore>()((set) => ({
-  user: getUserFromLocalStorage(),
-  setUser: (user) => set({ user }),
-  removeUser: () => set({ user: null }),
-}));
+export const UseUserStore = create<IUseUsers>()(
+  persist(
+    (set) => ({
+      currentUser: null,
+      setCurrentUser: (currentUser: IUser) => set(() => ({ currentUser })),
+      getCurrentUser: () => {},
+      // ProfileServices.getProfile()
+      //   .then((res) =>
+      //     set(() => ({
+      //       currentUser: res.data.data,
+      //     }))
+      //   )
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      // },
+    }),
+    { name: "UserData" }
+  )
+);

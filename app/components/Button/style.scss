@@ -21,6 +21,7 @@
     padding: 10px;
     font-size: 14px;
     line-height: 17px;
+    border-radius: 5px;
   }
 
   &.size-md {
@@ -62,6 +63,11 @@
 
   &.color-danger {
     background-color: c.$color-danger;
+    color: c.$color-white;
+  }
+
+  &.color-dark {
+    background-color: c.$color-text;
     color: c.$color-white;
   }
 }

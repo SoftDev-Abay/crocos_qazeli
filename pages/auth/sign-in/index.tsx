@@ -11,9 +11,8 @@ import { useForm, SubmitHandler, set } from "react-hook-form";
 import { ObjectSchema, AnyObject } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAxios } from "@/app/context/AxiosContext";
-import { useUserStore } from "@/app/store/useUserStore";
+import { UseUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/router";
-
 import Cookies from "js-cookie";
 
 const Page = () => {
@@ -25,6 +24,10 @@ const Page = () => {
   const changePasswordType = (type: string) => {
     setPasswordType(type);
   };
+
+  const { currentUser } = UseUserStore.getState();
+
+  // console.log(currentUser);
 
   const {
     register,
@@ -42,13 +45,12 @@ const Page = () => {
       const refresh_token = response.data.refresh_token;
       const user = response.data.data;
 
-      useUserStore.getState().setUser(user);
+      UseUserStore.getState().setCurrentUser(user);
 
       Cookies.set("access_token", access_token);
       Cookies.set("refresh_token", refresh_token);
 
       router.push("/admin-panel");
-      
     } catch (error) {
       console.log(error);
     }

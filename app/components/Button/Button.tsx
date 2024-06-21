@@ -6,7 +6,14 @@ type ButtonProps = {
   children: React.ReactNode;
   className?: string;
   size?: "sm" | "md" | "lg";
-  color?: "primary" | "accent" | "highlight" | "muted" | "success" | "danger";
+  color?:
+    | "primary"
+    | "accent"
+    | "highlight"
+    | "muted"
+    | "success"
+    | "danger"
+    | "dark";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = ({

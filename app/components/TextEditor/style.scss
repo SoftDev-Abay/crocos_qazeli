@@ -1,0 +1,27 @@
+@use "../../../styles/colors.scss" as c;
+
+.text-editor-container {
+  padding: 5px 15px 11px 15px;
+  border-color: c.$color-text;
+  color: c.$color-text;
+  border: 1px solid c.$color-text;
+  border-radius: 10px;
+
+  max-height: 77px;
+
+  overflow-y: scroll;
+
+  flex-grow: 1;
+
+  &:focus {
+    border: 1px solid c.$color-accent !important;
+  }
+
+  .editor {
+    margin-top: 10px;
+    outline: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #26333d;
+  }
+}

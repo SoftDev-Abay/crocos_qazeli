@@ -3,6 +3,18 @@ import { ChangeHandler } from "react-hook-form";
 import Select, { components } from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import ArrowDownIcon from "@/app/icons/ArrowDownIcon";
+import CloseIcon from "@/app/icons/CloseIcon";
+
+const CustomMultiValueRemove = (props: any) => {
+  const { innerProps, innerRef } = props;
+  return (
+    <div {...innerProps} ref={innerRef}>
+      <span className="custom-remove-button" onClick={props.onClick}>
+        <CloseIcon width={16} height={16} color="" />
+      </span>
+    </div>
+  );
+};
 
 type Props = {
   register: {
@@ -23,9 +35,12 @@ type Props = {
   selectedOptions?: any[];
   icon?: React.ReactElement;
   notSearchable?: boolean;
+  multiple?: boolean;
+  disabled?: boolean;
+  noOptionMessage?: string;
 };
 
-const InputSelect: React.FC<Props> = ({
+const AdminSelect: React.FC<Props> = ({
   register,
   selectedOptions,
   handleSelect,
@@ -39,20 +54,28 @@ const InputSelect: React.FC<Props> = ({
   forNotification,
   icon,
   notSearchable,
+  multiple,
+  noOptionMessage,
+  disabled = false,
 }) => {
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
       outline: "none",
       width: "100%",
-      borderRadius: "10px",
+      borderRadius: "5px",
+      backgroundColor: "white",
+      color: "#26333d",
       fontSize: 14,
       fontWeight: 500,
       lineHeight: "normal",
-      border: state.isFocused ? "1px solid #156CBD" : "1px solid #a8b7c7",
+      border: state.isFocused ? "1px solid #26333D" : "1px solid #26333D",
       boxShadow: state.isFocused ? 0 : 0,
       "&:hover": {
-        border: state.isFocused ? "1px solid #156CBD" : "1px solid #a8b7c7",
+        border: state.isFocused ? "1px solid #26333D" : "1px solid #26333D",
+      },
+      "&:disabled": {
+        color: "#26333d",
       },
     }),
 
@@ -60,12 +83,14 @@ const InputSelect: React.FC<Props> = ({
       icon
         ? {
             ...provided,
-            padding: "17px 15px 17px 43px",
+
+            padding: "12px 15px 12px 38px",
             "&:focus": { border: "none", outline: "none" },
           }
         : {
             ...provided,
-            padding: "17px 15px ",
+
+            padding: "12px 15px ",
             "&:focus": { border: "none", outline: "none" },
           },
     placeholder: (provided: any) => ({
@@ -86,19 +111,18 @@ const InputSelect: React.FC<Props> = ({
     dropdownIndicator: (provided: any) => ({
       ...provided,
       color: "#26333D",
-      paddingRight: "22px",
+      paddingRight: "10px",
     }),
     menu: (provided: any) => ({
       ...provided,
       zIndex: 3,
       borderRadius: "10px",
       padding: "0",
-      overflow: "hidden",
     }),
     option: (provided: any) => ({
       ...provided,
-      "&:first-child": { borderRadius: "10px 10px 0 0", marginTop: "-4px" },
-      "&:last-child": { borderRadius: " 0 0 10px 10px", marginBottom: "-4px" },
+      "&:first-child": { borderRadius: "5px 5px 0 0", marginTop: "-4px" },
+      "&:last-child": { borderRadius: " 0 0 5px 5px", marginBottom: "-4px" },
       "&:focus": { backgroundColor: "#156cbd" },
     }),
   };
@@ -123,31 +147,49 @@ const InputSelect: React.FC<Props> = ({
                   },
                 })}
                 closeMenuOnScroll={true}
-                value={options?.filter((item) =>
-                  defaultValue
-                    ? defaultValue === item.value
-                    : value === item.value
-                )}
+                value={
+                  multiple
+                    ? options?.filter((option) => value?.includes(option.value))
+                    : options?.filter((item) =>
+                        defaultValue
+                          ? defaultValue === item.value
+                          : value === item.value
+                      )
+                }
+                isClearable
                 isSearchable={notSearchable ? false : true}
                 defaultValue={options?.filter(
                   (item) => defaultValue === item.value
                 )}
-                onChange={(item) => onChange(item?.value)}
+                isDisabled={disabled}
+                onChange={
+                  multiple
+                    ? (options) => {
+                        onChange(options?.map((option: any) => option.value));
+                      }
+                    : (item) => {
+                        onChange(item?.value);
+                      }
+                }
                 getOptionValue={(option) => `${option["value"]}`}
                 getOptionLabel={(label) => `${label["label"]}`}
                 placeholder={placeholder}
-                noOptionsMessage={() => "Совпадении не найдено"}
+                noOptionsMessage={() =>
+                  noOptionMessage ? noOptionMessage : `Совпадении не найдено`
+                }
                 options={options}
+                isMulti={multiple ? multiple : false}
                 components={{
                   DropdownIndicator: () => (
                     <div
                       style={{
-                        paddingRight: "22px",
-                        // top: "50%"
-                        // transform: "transitionY(-50%)"
+                        padding: "8px 8px 8px 0px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
                     >
-                      <ArrowDownIcon />
+                      <ArrowDownIcon width={20} height={20} />
                     </div>
                   ),
                 }}
@@ -156,7 +198,14 @@ const InputSelect: React.FC<Props> = ({
           }}
         />
         {icon ? (
-          <div style={{ position: "absolute", top: "15px", left: "15px" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "14px",
+              transform: "translateY(-50%)",
+            }}
+          >
             {icon}
           </div>
         ) : (
@@ -167,4 +216,4 @@ const InputSelect: React.FC<Props> = ({
   );
 };
 
-export default InputSelect;
+export default AdminSelect;

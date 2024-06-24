@@ -19,7 +19,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   labelStyle,
 }) => {
   return (
-    <div className={`input-group ${className}`} style={style}>
+    <div className={`input-group ${className ? className : ""}`} style={style}>
       <label
         className={`input-group-label ${labelClassName}`}
         style={labelStyle}

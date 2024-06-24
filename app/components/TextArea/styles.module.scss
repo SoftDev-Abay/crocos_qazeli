@@ -1,59 +1,58 @@
 .textArea {
-	font-size: 14px;
-	font-weight: 500;
-	line-height: normal;
-	letter-spacing: -0.28px;
-	background: #ffffff;
-	border-radius: 10px;
-	width: 100%;
-	color: #26333d;
-	padding: 18px 15px;
-	border: 1px solid #a8b7c7;
-	cursor: pointer;
-	resize: none;
-	outline: none;
-	&::placeholder {
-		font-size: 14px;
-		font-weight: 500;
-		line-height: normal;
-		letter-spacing: -0.28px;
-		color: #26333d;
-	}
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.28px;
+  background: #ffffff;
+  border-radius: 10px;
+  width: 100%;
+  color: #26333d;
+  padding: 18px 15px;
+  border: 1px solid #a8b7c7;
+  resize: none;
+  outline: none;
+  &::placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.28px;
+    color: #26333d;
+  }
 }
 .textAreaAdmin {
-	font-size: 14px;
-	font-weight: 500;
-	line-height: normal;
-	letter-spacing: -0.28px;
-	background: #ffffff;
-	border-radius: 5px;
-	width: 100%;
-	color: #26333d;
-	padding: 12px 15px;
-	border: 1px solid #26333d;
-	cursor: pointer;
-	resize: none;
-	outline: none;
-	&::placeholder {
-		font-size: 14px;
-		font-weight: 500;
-		line-height: normal;
-		letter-spacing: -0.28px;
-		color: #26333d;
-	}
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.28px;
+  background: #ffffff;
+  border-radius: 5px;
+  width: 100%;
+  color: #26333d;
+  padding: 12px 15px;
+  border: 1px solid #26333d;
+  cursor: pointer;
+  resize: none;
+  outline: none;
+  &::placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.28px;
+    color: #26333d;
+  }
 }
 .relative {
-	position: relative;
+  position: relative;
 }
 .length {
-	position: absolute;
-	right: 5px;
-	bottom: 10px;
-	font-size: 10px;
-	font-weight: 400;
-	&Red {
-		color: #f17777;
-	}
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  font-size: 10px;
+  font-weight: 400;
+  &Red {
+    color: #f17777;
+  }
 }
 // @media screen and (max-width: 1200px) {
 // 	.textArea {

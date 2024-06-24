@@ -122,14 +122,8 @@ export let AddRoomFormSchema = object({
       .min(2, "minField2")
       .max(50, "Maximum length is 50 characters")
       .required("Field is required"),
-    en: string()
-      .min(2, "minField2")
-      .max(50, "Maximum length is 50 characters")
-      .required("Field is required"),
-    kz: string()
-      .min(2, "minField2")
-      .max(50, "Maximum length is 50 characters")
-      .required("Field is required"),
+    en: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
+    kz: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
   }).test(
     "at-least-one",
     "atLeastOne",
@@ -140,14 +134,8 @@ export let AddRoomFormSchema = object({
       .min(2, "minField2")
       .max(50, "Maximum length is 50 characters")
       .required("Field is required"),
-    en: string()
-      .min(2, "minField2")
-      .max(50, "Maximum length is 50 characters")
-      .required("Field is required"),
-    kz: string()
-      .min(2, "minField2")
-      .max(50, "Maximum length is 50 characters")
-      .required("Field is required"),
+    en: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
+    kz: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
   }),
   placement_id: number().required("Field is required"),
   room_type_id: number().required("Field is required"),
@@ -167,3 +155,5 @@ export let AddRoomFormSchema = object({
   check_in: date().required("Field is required"),
   check_out: date().required("Field is required"),
 });
+
+export type AddRoomFormType = InferType<typeof AddRoomFormSchema>;

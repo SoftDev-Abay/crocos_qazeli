@@ -4,6 +4,7 @@ import Select, { components } from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import ArrowDownIcon from "@/app/icons/ArrowDownIcon";
 import CloseIcon from "@/app/icons/CloseIcon";
+import InputErrorText from "../InputErrorText/InputErrorText";
 
 const CustomMultiValueRemove = (props: any) => {
   const { innerProps, innerRef } = props;
@@ -38,6 +39,7 @@ type Props = {
   multiple?: boolean;
   disabled?: boolean;
   noOptionMessage?: string;
+  error?: string;
 };
 
 const AdminSelect: React.FC<Props> = ({
@@ -57,13 +59,14 @@ const AdminSelect: React.FC<Props> = ({
   multiple,
   noOptionMessage,
   disabled = false,
+  error,
 }) => {
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
       outline: "none",
       width: "100%",
-      borderRadius: "5px",
+      borderRadius: "10px",
       backgroundColor: "white",
       color: "#26333d",
       fontSize: 14,
@@ -90,7 +93,7 @@ const AdminSelect: React.FC<Props> = ({
         : {
             ...provided,
 
-            padding: "12px 15px ",
+            padding: "11px 15px ",
             "&:focus": { border: "none", outline: "none" },
           },
     placeholder: (provided: any) => ({
@@ -128,7 +131,7 @@ const AdminSelect: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <div>
       <div style={{ position: "relative" }}>
         <Controller
           name={name || register?.name}
@@ -212,7 +215,8 @@ const AdminSelect: React.FC<Props> = ({
           <></>
         )}
       </div>
-    </>
+      {error && <InputErrorText error={error} />}
+    </div>
   );
 };
 

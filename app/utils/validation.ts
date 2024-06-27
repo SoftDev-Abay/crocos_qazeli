@@ -1,4 +1,13 @@
-import { object, string, number, date, InferType, boolean } from "yup";
+import {
+  object,
+  string,
+  number,
+  date,
+  InferType,
+  boolean,
+  mixed,
+  array,
+} from "yup";
 
 export let SignInSchema = object({
   email: string()
@@ -89,14 +98,14 @@ export type ContactFormType = InferType<typeof ContactFormSchema>;
 //       3
 //     ],
 //     "price": 150.75,
-//     "quantity": 1,
-//     "square": 25,
-//     "min_booking_period": 10,
+//     "quantity": 1, // should be a integer number, nullable
+//     "square": 25, // should be a integer number, nullable
+//     "min_booking_period": 10, // should be a integer number, nullable
 //     "smoking": true,
 //     "status": "active",
-//     "cot_quantity": 2,
-//     "cot_price": 20.5,
-//     "fine": 100.5,
+//     "cot_quantity": 2, // should be a integer number, nullable
+//     "cot_price": 20.5,  // should be nullable
+//     "fine": 100.5, // should be nullable
 //     "cancellation_id": "1",
 //     "check_in": "2025-01-01T15:00:00",
 //     "check_out": "2025-01-01T15:00:00",
@@ -139,18 +148,25 @@ export let AddRoomFormSchema = object({
   }),
   placement_id: number().required("Field is required"),
   room_type_id: number().required("Field is required"),
-  gallery_images: string().required("Field is required"),
-  comforts: string().required("Field is required"),
-  food_types: string().required("Field is required"),
-  price: number().required("Field is required"),
-  quantity: number().required("Field is required"),
-  square: number().required("Field is required"),
-  min_booking_period: number().required("Field is required"),
+  // max imgs is 5 and they are files
+  gallery_images: array()
+    .min(1, "At least 1 image is required")
+    .max(5, "No more than 5 images are allowed"),
+  comforts: array().required("Field is required"),
+  // food types is an array of numbers
+  food_types: array().required("Field is required"),
+  price: number().nullable().required("Field is required"),
+  quantity: number().integer().nullable().required("Field is required"),
+  square: number().integer().nullable().required("Field is required"),
+  min_booking_period: number()
+    .integer()
+    .nullable()
+    .required("Field is required"),
   smoking: boolean().required("Field is required"),
-  status: string().required("Field is required"),
-  cot_quantity: number().required("Field is required"),
-  cot_price: number().required("Field is required"),
-  fine: number().required("Field is required"),
+  status: string(),
+  cot_quantity: number().integer().nullable().required("Field is required"),
+  cot_price: number().nullable().required("Field is required"),
+  fine: number().nullable().required("Field is required"),
   cancellation_id: string().required("Field is required"),
   check_in: date().required("Field is required"),
   check_out: date().required("Field is required"),

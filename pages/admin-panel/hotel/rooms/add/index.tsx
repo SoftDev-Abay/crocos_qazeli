@@ -6,7 +6,8 @@ import InputGroup from "@/app/components/InputGroup/InputGroup";
 import Input from "@/app/components/Input/Input";
 import "./style.scss";
 import { useForm, SubmitHandler, set, Controller } from "react-hook-form";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "../../../../../styles/global.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddRoomFormSchema, AddRoomFormType } from "@/app/utils/validation";
@@ -20,6 +21,10 @@ import AdminSelect from "@/app/components/Select";
 import TextArea from "@/app/components/TextArea";
 import Notepad from "@/app/components/TextEditor/TextEditor";
 import TextEditor from "@/app/components/TextEditor/TextEditor";
+import Documents from "@/app/components/AddImagesContainer/AddImagesContainer";
+import DatePickerInput from "@/app/components/DatePickerInput/DatePickerInput";
+import { useAxios } from "@/app/context/AxiosContext";
+import { toast } from "react-toastify";
 
 // Наименование на русском
 // Наименование на казахском
@@ -45,7 +50,52 @@ import TextEditor from "@/app/components/TextEditor/TextEditor";
 // Количество номеров подобного типа
 // Галерея
 
+// {
+//   "placement_id": 1,
+//   "room_type_id": 1,
+//   "gallery_images": [
+//     1,
+//     2,
+//     3
+//   ],
+//   "comforts": [
+//     1,
+//     2,
+//     3
+//   ],
+//   "food_types": [
+//     1,
+//     2,
+//     3
+//   ],
+//   "price": 150.75,
+//   "quantity": 1,
+//   "square": 25,
+//   "min_booking_period": 10,
+//   "smoking": true,
+//   "status": "active",
+//   "cot_quantity": 2,
+//   "cot_price": 20.5,
+//   "fine": 100.5,
+//   "cancellation_id": "1",
+//   "check_in": "2025-01-01T15:00:00",
+//   "check_out": "2025-01-01T15:00:00",
+//   "ru": {
+//     "title": "Заголовок на русском языке",
+//     "description": "Описание на русском языке"
+//   },
+//   "en": {
+//     "title": "Заголовок на английском языке",
+//     "description": "Описание на английском языке"
+//   },
+//   "kz": {
+//     "title": "Заголовок на казахском языке",
+//     "description": "Описание на казахском языке"
+//   }
+// }
+
 const Page = () => {
+  const axios = useAxios();
   const {
     register,
     handleSubmit,
@@ -84,10 +134,72 @@ const Page = () => {
   } = useAllPlacements({});
 
   const onSubmit: SubmitHandler<AddRoomFormType> = async (data) => {
+    let formData = new FormData();
+    let images = [];
+
     try {
-      console.log(data);
+      data.gallery_images?.map((item) => {
+        formData.append("content[]", item.file);
+      });
+
+      const responce = await axios.post("/api/v1/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const images = responce.data.data.map((item) => item.id);
+
+      images.map((item) => {
+        formData.append("gallery_images[]", item);
+      });
+
+      toast.success("Изображения успешно загружены");
     } catch (error) {
       console.log(error);
+      toast.error("Произошла ошибка при загрузке изображений");
+      return;
+    }
+
+    try {
+      const completeRoomData = {
+        ru: {
+          title: data.title.ru,
+          description: data.description.ru,
+        },
+        kz: {
+          title: data.title.kz || data.title.ru,
+          description: data.description.kz || data.description.ru,
+        },
+        en: {
+          title: data.title.en || data.title.ru,
+          description: data.description.en || data.description.ru,
+        },
+        placement_id: data.placement_id,
+        room_type_id: data.room_type_id,
+        food_types: data.food_types,
+        price: data.price,
+        quantity: data.quantity,
+        square: data.square,
+        min_booking_period: data.min_booking_period,
+        smoking: data.smoking,
+        status: "active",
+        cot_quantity: data.cot_quantity,
+        cot_price: data.cot_price,
+        fine: data.fine,
+        cancellation_id: data.cancellation_id,
+        check_in: data.check_in,
+        check_out: data.check_out,
+        comforts: data.comforts,
+        gallery_images: images,
+      };
+
+      const response = await axios.post("/api/v1/rooms", completeRoomData);
+
+      toast.success("Номер успешно добавлен");
+    } catch (error) {
+      console.log(error);
+      toast.error("Произошла ошибка при добавлении номера");
     }
   };
 
@@ -116,15 +228,7 @@ const Page = () => {
     value: cancelationType.id,
   }));
 
-  console.log({ errorFoodTypes });
-
-  console.log({
-    roomTypes,
-    foodTypes,
-    comfortTypes,
-    cancelationTypes,
-    placements,
-  });
+  console.log(errors);
 
   return (
     <AdminWrapper>
@@ -157,15 +261,27 @@ const Page = () => {
               </InputGroup>
 
               <InputGroup label="Описание на русском">
-                <TextEditor name="description.ru" control={control} />
+                <TextEditor
+                  name="description.ru"
+                  control={control}
+                  error={errors.description?.kz?.message}
+                />
               </InputGroup>
 
               <InputGroup label="Описание на казахском">
-                <TextEditor name="description.kz" control={control} />
+                <TextEditor
+                  name="description.kz"
+                  control={control}
+                  error={errors.description?.kz?.message}
+                />
               </InputGroup>
 
               <InputGroup label="Описание на английском">
-                <TextEditor name="description.en" control={control} />
+                <TextEditor
+                  name="description.en"
+                  control={control}
+                  error={errors.description?.kz?.message}
+                />
               </InputGroup>
 
               <InputGroup label="Площадь">
@@ -241,22 +357,33 @@ const Page = () => {
                     gap: "10px",
                   }}
                 >
-                  <Input
-                    register={register("smoking")}
-                    error={errors.smoking?.message}
-                    type="checkbox"
-                    style={{ width: "20px", height: "20px" }}
-                  />
+                  <div>
+                    <Input
+                      register={register("smoking")}
+                      error={errors.smoking?.message}
+                      type="checkbox"
+                      style={{ width: "20px", height: "20px" }}
+                      defaultChecked={false}
+                    />
+                    {errors.smoking && (
+                      <span style={{ color: "red" }}>
+                        {errors.smoking.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </InputGroup>
 
               <InputGroup label="Размещение">
-                <AdminSelect
-                  options={placementOptions}
-                  name="placement_id"
-                  control={control}
-                  register={register("placement_id")}
-                />
+                <div>
+                  <AdminSelect
+                    options={placementOptions}
+                    name="placement_id"
+                    control={control}
+                    register={register("placement_id")}
+                    error={errors.placement_id && errors.placement_id.message}
+                  />
+                </div>
               </InputGroup>
 
               <InputGroup label="Тип">
@@ -265,6 +392,7 @@ const Page = () => {
                   name="room_type_id"
                   control={control}
                   register={register("room_type_id")}
+                  error={errors.room_type_id && errors.room_type_id.message}
                 />
               </InputGroup>
 
@@ -274,6 +402,7 @@ const Page = () => {
                   name="food_types"
                   control={control}
                   register={register("food_types")}
+                  error={errors.food_types && errors.food_types.message}
                   multiple
                 />
               </InputGroup>
@@ -284,6 +413,9 @@ const Page = () => {
                   name="cancellation_id"
                   control={control}
                   register={register("cancellation_id")}
+                  error={
+                    errors.cancellation_id && errors.cancellation_id.message
+                  }
                 />
               </InputGroup>
 
@@ -294,12 +426,29 @@ const Page = () => {
                   control={control}
                   register={register("comforts")}
                   multiple
+                  error={errors.comforts && errors.comforts.message}
                 />
               </InputGroup>
 
-              <InputGroup label="">
-                Примечание: Можно загрузить максимум 5 изображений
+              <InputGroup label="Время заезда">
+                <DatePickerInput control={control} name="check_in" />
               </InputGroup>
+
+              <InputGroup label="Время выезда">
+                <DatePickerInput control={control} name="check_out" />
+              </InputGroup>
+
+              <InputGroup label="Галерея">
+                <div>
+                  <Documents
+                    control={control}
+                    error={
+                      errors.gallery_images && errors.gallery_images.message
+                    }
+                  />
+                </div>
+              </InputGroup>
+
               <InputGroup label="">
                 <div
                   style={{
@@ -308,7 +457,9 @@ const Page = () => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Button size="sm">Добавить</Button>
+                  <Button size="sm" type="submit">
+                    Добавить
+                  </Button>
                   <Button size="sm" color="dark">
                     Сохранить и добавить еще
                   </Button>

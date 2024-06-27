@@ -3,6 +3,10 @@
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
+import Link from "@tiptap/extension-link";
+import InputErrorText from "../InputErrorText/InputErrorText";
+
+import Image from "@tiptap/extension-image";
 import {
   EditorContent,
   EditorProvider,
@@ -19,10 +23,12 @@ const TextEditor = ({
   description,
   control,
   name,
+  error,
 }: {
   description?: string;
   control: any;
   name: string;
+  error?: string;
 }) => {
   return (
     <Controller
@@ -31,7 +37,7 @@ const TextEditor = ({
       defaultValue={description || ""}
       render={({ field }) => {
         const editor = useEditor({
-          extensions: [StarterKit.configure(), Underline],
+          extensions: [StarterKit.configure(), Underline, Image],
           content: description,
           editorProps: {
             attributes: {
@@ -44,9 +50,13 @@ const TextEditor = ({
         });
 
         return (
-          <div className="text-editor-container">
-            <Toolbar editor={editor} />
-            <EditorContent editor={editor} />
+          <div>
+            <div className="text-editor-container">
+              <Toolbar editor={editor} />
+              <EditorContent editor={editor} />
+            </div>
+
+            {error && <InputErrorText error={error} />}
           </div>
         );
       }}

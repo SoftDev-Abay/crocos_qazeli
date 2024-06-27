@@ -9,7 +9,9 @@
 
   max-height: 77px;
 
-  overflow-y: scroll;
+  //   scroll should only appear when needed
+
+  overflow-y: auto;
 
   flex-grow: 1;
 
@@ -23,5 +25,10 @@
     font-size: 16px;
     font-weight: 500;
     color: #26333d;
+
+    ul,
+    ol {
+      padding-left: 20px;
+    }
   }
 }

@@ -13,6 +13,7 @@ import {
   FaHeading,
   FaUndo,
   FaRedo,
+  FaImage,
 } from "react-icons/fa";
 import "./style.scss";
 
@@ -24,6 +25,18 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
   const isActive = (type: string) => editor.isActive(type);
 
   // toggle bold, italic, underline, bullet list, ordered list, crossed out, heading, undo and redo
+
+  const onAddImage = () => {
+    const url = window.prompt("Enter the URL of the image:");
+
+    try {
+      if (url) {
+        editor.chain().focus().setImage({ src: url }).run();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="toolbar">
@@ -73,6 +86,10 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
       >
         <FaHeading />
+      </Toggle>
+
+      <Toggle state={false} onClick={onAddImage}>
+        <FaImage />
       </Toggle>
 
       <Toggle

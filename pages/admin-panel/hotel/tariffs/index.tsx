@@ -6,18 +6,9 @@ import PageHeader from "@/app/components/PageHeader/PageHeader";
 import Button from "@/app/components/Button/Button";
 import useAllTariffs from "@/app/hooks/useAllTariffs";
 import "./style.scss";
+import { useRouter } from "next/router";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
-
-const PageHeaderProps = {
-  buttons: [
-    <Button onClick={() => {}} size="sm" color="primary">
-      Добавить
-    </Button>,
-  ],
-  title: "Тарифы",
-  goBack: false,
-};
 
 const itemLabels = [
   {
@@ -37,7 +28,25 @@ const itemLabels = [
 const Page = () => {
   const [currentTab, setCurrentTab] = React.useState(staticTabs[0]);
 
+  const router = useRouter();
+
   const { data, isLoading } = useAllTariffs({});
+
+  const PageHeaderProps = {
+    buttons: [
+      <Button
+        onClick={() => {
+          router.push("/admin-panel/hotel/tariffs/add");
+        }}
+        size="sm"
+        color="primary"
+      >
+        Добавить
+      </Button>,
+    ],
+    title: "Тарифы",
+    goBack: false,
+  };
 
   return (
     <AdminWrapper>

@@ -47,7 +47,7 @@ const useAllRooms = ({
           // per_page,
           // filterFrom,
           // room_id,
-          // placement_id,
+          placement_id,
           // filterUntil,
           // status,
           page,

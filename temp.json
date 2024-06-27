@@ -1,12 +1,719 @@
 {
-  "data": {
-    "id": 1,
-    "tariff_id": null,
-    "parent": null,
-    "room_tariffs": [],
-    "title": "Стандартный",
-    "placement_id": 1,
-    "percent": "0.00",
-    "created_at": "2024-06-21T06:20:50.000000Z"
+  "data": [
+    {
+      "id": 1,
+      "room_type": {
+        "id": 1,
+        "slug": "double",
+        "number_room": 2,
+        "sleeping_places": 2,
+        "title": "Стандартный двухместный",
+        "description": "",
+        "created_at": "2024-06-24T10:22:38.000000Z"
+      },
+      "title": "Стандартная комната",
+      "description": "",
+      "default_price": "1.00",
+      "default_quantity": 10,
+      "price": null,
+      "tariff_id": null,
+      "square": 10,
+      "smoking": 0,
+      "room_settlement": {
+        "id": 1,
+        "room_id": 1,
+        "fine": "50000.00",
+        "check_in": "12:00 утра",
+        "check_out": "12:00 вечера",
+        "cancellation": {
+          "id": 1,
+          "time": "1 день"
+        }
+      },
+      "gallery_images": [],
+      "comfort_rooms": [],
+      "food_types": [],
+      "best_tariff": null,
+      "min_booking_period": 1,
+      "roomTariffs": [
+        {
+          "id": 1,
+          "room_id": 1,
+          "tariff_id": 2,
+          "user_id": 2,
+          "status": "active",
+          "created_at": "2024-06-24T10:22:39.000000Z",
+          "updated_at": "2024-06-24T10:22:39.000000Z",
+          "deleted_at": null,
+          "prices": [
+            {
+              "id": 1,
+              "room_tariff_id": 1,
+              "price": "1.00",
+              "from_at": "2024-01-04",
+              "until_at": "2024-12-14",
+              "created_at": "2024-06-24T10:22:39.000000Z",
+              "updated_at": "2024-06-24T10:22:39.000000Z",
+              "deleted_at": null
+            }
+          ],
+          "quantities": [
+            {
+              "id": 1,
+              "room_tariff_id": 1,
+              "quantity": 62,
+              "from_at": "2024-01-04",
+              "until_at": "2024-12-14",
+              "created_at": "2024-06-24T10:22:39.000000Z",
+              "updated_at": "2024-06-24T10:22:39.000000Z",
+              "deleted_at": null
+            }
+          ],
+          "statuses": [],
+          "tariff": {
+            "id": 2,
+            "tariff_id": 1,
+            "placement_id": 1,
+            "percent": "-10.00",
+            "created_at": "2024-06-24T10:22:39.000000Z",
+            "updated_at": "2024-06-24T10:22:39.000000Z",
+            "deleted_at": null,
+            "title": "Гибкий",
+            "translations": [
+              {
+                "id": 4,
+                "tariff_id": 2,
+                "locale": "ru",
+                "title": "Гибкий",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 5,
+                "tariff_id": 2,
+                "locale": "kz",
+                "title": "Гибкий",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 6,
+                "tariff_id": 2,
+                "locale": "en",
+                "title": "Гибкий",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              }
+            ],
+            "parent": {
+              "id": 1,
+              "tariff_id": null,
+              "placement_id": 1,
+              "percent": "0.00",
+              "created_at": "2024-06-24T10:22:39.000000Z",
+              "updated_at": "2024-06-24T10:22:39.000000Z",
+              "deleted_at": null,
+              "title": "Стандартный",
+              "translations": [
+                {
+                  "id": 3,
+                  "tariff_id": 1,
+                  "locale": "en",
+                  "title": "Стандартный",
+                  "created_at": "2024-06-24T10:22:39.000000Z",
+                  "updated_at": "2024-06-24T10:22:39.000000Z",
+                  "deleted_at": null
+                },
+                {
+                  "id": 2,
+                  "tariff_id": 1,
+                  "locale": "kz",
+                  "title": "Стандартный",
+                  "created_at": "2024-06-24T10:22:39.000000Z",
+                  "updated_at": "2024-06-24T10:22:39.000000Z",
+                  "deleted_at": null
+                },
+                {
+                  "id": 1,
+                  "tariff_id": 1,
+                  "locale": "ru",
+                  "title": "Стандартный",
+                  "created_at": "2024-06-24T10:22:39.000000Z",
+                  "updated_at": "2024-06-24T10:22:39.000000Z",
+                  "deleted_at": null
+                }
+              ],
+              "parent": null
+            },
+            "room_tariffs": [
+              {
+                "id": 1,
+                "room_id": 1,
+                "tariff_id": 2,
+                "user_id": 2,
+                "status": "active",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null,
+                "prices": [
+                  {
+                    "id": 1,
+                    "room_tariff_id": 1,
+                    "price": "1.00",
+                    "from_at": "2024-01-04",
+                    "until_at": "2024-12-14",
+                    "created_at": "2024-06-24T10:22:39.000000Z",
+                    "updated_at": "2024-06-24T10:22:39.000000Z",
+                    "deleted_at": null
+                  }
+                ],
+                "quantities": [
+                  {
+                    "id": 1,
+                    "room_tariff_id": 1,
+                    "quantity": 62,
+                    "from_at": "2024-01-04",
+                    "until_at": "2024-12-14",
+                    "created_at": "2024-06-24T10:22:39.000000Z",
+                    "updated_at": "2024-06-24T10:22:39.000000Z",
+                    "deleted_at": null
+                  }
+                ],
+                "statuses": [],
+                "tariff": {
+                  "id": 2,
+                  "tariff_id": 1,
+                  "placement_id": 1,
+                  "percent": "-10.00",
+                  "created_at": "2024-06-24T10:22:39.000000Z",
+                  "updated_at": "2024-06-24T10:22:39.000000Z",
+                  "deleted_at": null,
+                  "title": "Гибкий",
+                  "translations": [
+                    {
+                      "id": 4,
+                      "tariff_id": 2,
+                      "locale": "ru",
+                      "title": "Гибкий",
+                      "created_at": "2024-06-24T10:22:39.000000Z",
+                      "updated_at": "2024-06-24T10:22:39.000000Z",
+                      "deleted_at": null
+                    },
+                    {
+                      "id": 5,
+                      "tariff_id": 2,
+                      "locale": "kz",
+                      "title": "Гибкий",
+                      "created_at": "2024-06-24T10:22:39.000000Z",
+                      "updated_at": "2024-06-24T10:22:39.000000Z",
+                      "deleted_at": null
+                    },
+                    {
+                      "id": 6,
+                      "tariff_id": 2,
+                      "locale": "en",
+                      "title": "Гибкий",
+                      "created_at": "2024-06-24T10:22:39.000000Z",
+                      "updated_at": "2024-06-24T10:22:39.000000Z",
+                      "deleted_at": null
+                    }
+                  ],
+                  "parent": {
+                    "id": 1,
+                    "tariff_id": null,
+                    "placement_id": 1,
+                    "percent": "0.00",
+                    "created_at": "2024-06-24T10:22:39.000000Z",
+                    "updated_at": "2024-06-24T10:22:39.000000Z",
+                    "deleted_at": null,
+                    "title": "Стандартный",
+                    "translations": [
+                      {
+                        "id": 3,
+                        "tariff_id": 1,
+                        "locale": "en",
+                        "title": "Стандартный",
+                        "created_at": "2024-06-24T10:22:39.000000Z",
+                        "updated_at": "2024-06-24T10:22:39.000000Z",
+                        "deleted_at": null
+                      },
+                      {
+                        "id": 2,
+                        "tariff_id": 1,
+                        "locale": "kz",
+                        "title": "Стандартный",
+                        "created_at": "2024-06-24T10:22:39.000000Z",
+                        "updated_at": "2024-06-24T10:22:39.000000Z",
+                        "deleted_at": null
+                      },
+                      {
+                        "id": 1,
+                        "tariff_id": 1,
+                        "locale": "ru",
+                        "title": "Стандартный",
+                        "created_at": "2024-06-24T10:22:39.000000Z",
+                        "updated_at": "2024-06-24T10:22:39.000000Z",
+                        "deleted_at": null
+                      }
+                    ],
+                    "parent": null
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "room_id": 1,
+          "tariff_id": 4,
+          "user_id": 2,
+          "status": "active",
+          "created_at": "2024-06-27T07:20:41.000000Z",
+          "updated_at": "2024-06-27T07:20:41.000000Z",
+          "deleted_at": null,
+          "prices": [],
+          "quantities": [],
+          "statuses": [],
+          "tariff": {
+            "id": 4,
+            "tariff_id": null,
+            "placement_id": 1,
+            "percent": "15.00",
+            "created_at": "2024-06-27T07:20:41.000000Z",
+            "updated_at": "2024-06-27T07:20:41.000000Z",
+            "deleted_at": null,
+            "title": "dsad",
+            "translations": [
+              {
+                "id": 10,
+                "tariff_id": 4,
+                "locale": "ru",
+                "title": "dsad",
+                "created_at": "2024-06-27T07:20:41.000000Z",
+                "updated_at": "2024-06-27T07:20:41.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 11,
+                "tariff_id": 4,
+                "locale": "en",
+                "title": "dasdasd",
+                "created_at": "2024-06-27T07:20:41.000000Z",
+                "updated_at": "2024-06-27T07:20:41.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 12,
+                "tariff_id": 4,
+                "locale": "kz",
+                "title": "dasdsa",
+                "created_at": "2024-06-27T07:20:41.000000Z",
+                "updated_at": "2024-06-27T07:20:41.000000Z",
+                "deleted_at": null
+              }
+            ],
+            "parent": null,
+            "room_tariffs": [
+              {
+                "id": 4,
+                "room_id": 1,
+                "tariff_id": 4,
+                "user_id": 2,
+                "status": "active",
+                "created_at": "2024-06-27T07:20:41.000000Z",
+                "updated_at": "2024-06-27T07:20:41.000000Z",
+                "deleted_at": null,
+                "prices": [],
+                "quantities": [],
+                "statuses": [],
+                "tariff": {
+                  "id": 4,
+                  "tariff_id": null,
+                  "placement_id": 1,
+                  "percent": "15.00",
+                  "created_at": "2024-06-27T07:20:41.000000Z",
+                  "updated_at": "2024-06-27T07:20:41.000000Z",
+                  "deleted_at": null,
+                  "title": "dsad",
+                  "translations": [
+                    {
+                      "id": 10,
+                      "tariff_id": 4,
+                      "locale": "ru",
+                      "title": "dsad",
+                      "created_at": "2024-06-27T07:20:41.000000Z",
+                      "updated_at": "2024-06-27T07:20:41.000000Z",
+                      "deleted_at": null
+                    },
+                    {
+                      "id": 11,
+                      "tariff_id": 4,
+                      "locale": "en",
+                      "title": "dasdasd",
+                      "created_at": "2024-06-27T07:20:41.000000Z",
+                      "updated_at": "2024-06-27T07:20:41.000000Z",
+                      "deleted_at": null
+                    },
+                    {
+                      "id": 12,
+                      "tariff_id": 4,
+                      "locale": "kz",
+                      "title": "dasdsa",
+                      "created_at": "2024-06-27T07:20:41.000000Z",
+                      "updated_at": "2024-06-27T07:20:41.000000Z",
+                      "deleted_at": null
+                    }
+                  ],
+                  "parent": null
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "roomTariffsItems": [
+        {
+          "id": 1,
+          "room_tariff_id": 1,
+          "tariff_title": "Гибкий",
+          "price": 9,
+          "room_id": 1
+        },
+        {
+          "id": 4,
+          "room_tariff_id": 4,
+          "tariff_title": "dsad",
+          "price": 11.5,
+          "room_id": 1
+        }
+      ],
+      "placement": {
+        "id": 1,
+        "email": "mya23@daugherty.com",
+        "phone": "765.490.8104",
+        "placement_type_id": 1,
+        "user_id": 2,
+        "city_id": 1,
+        "main_image_id": 1,
+        "rating": 1,
+        "status": "active",
+        "freeze": 0,
+        "lat": 1,
+        "lon": 1,
+        "created_at": "2024-06-24T10:22:38.000000Z",
+        "updated_at": "2024-06-24T10:22:38.000000Z",
+        "deleted_at": null,
+        "title": "Название",
+        "address": "Адрес",
+        "description": null,
+        "translations": [
+          {
+            "id": 3,
+            "placement_id": 1,
+            "locale": "en",
+            "title": "Название",
+            "description": null,
+            "address": "Адрес",
+            "text_near": null,
+            "text_restaurant": null,
+            "text_get_there": null,
+            "created_at": "2024-06-24T10:22:38.000000Z",
+            "updated_at": "2024-06-24T10:22:38.000000Z",
+            "deleted_at": null
+          },
+          {
+            "id": 2,
+            "placement_id": 1,
+            "locale": "kz",
+            "title": "Название",
+            "description": null,
+            "address": "Адрес",
+            "text_near": null,
+            "text_restaurant": null,
+            "text_get_there": null,
+            "created_at": "2024-06-24T10:22:38.000000Z",
+            "updated_at": "2024-06-24T10:22:38.000000Z",
+            "deleted_at": null
+          },
+          {
+            "id": 1,
+            "placement_id": 1,
+            "locale": "ru",
+            "title": "Название",
+            "description": null,
+            "address": "Адрес",
+            "text_near": null,
+            "text_restaurant": null,
+            "text_get_there": null,
+            "created_at": "2024-06-24T10:22:38.000000Z",
+            "updated_at": "2024-06-24T10:22:38.000000Z",
+            "deleted_at": null
+          }
+        ],
+        "type": {
+          "id": 1,
+          "slug": "hotel",
+          "image_id": 1,
+          "created_at": "2024-06-24T10:22:38.000000Z",
+          "updated_at": "2024-06-24T10:22:38.000000Z",
+          "deleted_at": null,
+          "title": "Отель",
+          "translations": [
+            {
+              "id": 3,
+              "placement_type_id": 1,
+              "locale": "en",
+              "title": "Hotel",
+              "created_at": "2024-06-24T10:22:38.000000Z",
+              "updated_at": "2024-06-24T10:22:38.000000Z",
+              "deleted_at": null
+            },
+            {
+              "id": 2,
+              "placement_type_id": 1,
+              "locale": "kz",
+              "title": "Қонақ үй",
+              "created_at": "2024-06-24T10:22:38.000000Z",
+              "updated_at": "2024-06-24T10:22:38.000000Z",
+              "deleted_at": null
+            },
+            {
+              "id": 1,
+              "placement_type_id": 1,
+              "locale": "ru",
+              "title": "Отель",
+              "created_at": "2024-06-24T10:22:38.000000Z",
+              "updated_at": "2024-06-24T10:22:38.000000Z",
+              "deleted_at": null
+            }
+          ],
+          "image": {
+            "id": 1,
+            "disk": "uploads",
+            "name": "hotel.jpg",
+            "hash": "a04289e7443267772bcae8ea85711c9e19c12300",
+            "path": "placementTypesImages/2964966038.jpg",
+            "size": 444485,
+            "created_at": "2024-06-24T10:22:38.000000Z",
+            "updated_at": "2024-06-24T10:22:38.000000Z",
+            "deleted_at": null
+          }
+        },
+        "city": {
+          "id": 1,
+          "region_id": 2,
+          "created_at": "2024-06-24T10:22:37.000000Z",
+          "updated_at": "2024-06-24T10:22:37.000000Z",
+          "deleted_at": null,
+          "title": "Алматы",
+          "translations": [
+            {
+              "id": 3,
+              "city_id": 1,
+              "locale": "en",
+              "title": "Almaty",
+              "created_at": "2024-06-24T10:22:37.000000Z",
+              "updated_at": "2024-06-24T10:22:37.000000Z",
+              "deleted_at": null
+            },
+            {
+              "id": 2,
+              "city_id": 1,
+              "locale": "kz",
+              "title": "Алматы",
+              "created_at": "2024-06-24T10:22:37.000000Z",
+              "updated_at": "2024-06-24T10:22:37.000000Z",
+              "deleted_at": null
+            },
+            {
+              "id": 1,
+              "city_id": 1,
+              "locale": "ru",
+              "title": "Алматы",
+              "created_at": "2024-06-24T10:22:37.000000Z",
+              "updated_at": "2024-06-24T10:22:37.000000Z",
+              "deleted_at": null
+            }
+          ]
+        },
+        "main_image": {
+          "id": 1,
+          "disk": "uploads",
+          "name": "hotel.jpg",
+          "hash": "a04289e7443267772bcae8ea85711c9e19c12300",
+          "path": "placementTypesImages/2964966038.jpg",
+          "size": 444485,
+          "created_at": "2024-06-24T10:22:38.000000Z",
+          "updated_at": "2024-06-24T10:22:38.000000Z",
+          "deleted_at": null
+        },
+        "gallery_images": [],
+        "rooms": [
+          {
+            "id": 1,
+            "placement_id": 1,
+            "room_type_id": 1,
+            "price": "1.00",
+            "quantity": 10,
+            "min_booking_period": 1,
+            "square": 10,
+            "smoking": 0,
+            "status": "active",
+            "created_at": "2024-06-24T10:22:39.000000Z",
+            "updated_at": "2024-06-24T10:22:39.000000Z",
+            "deleted_at": null,
+            "title": "Стандартная комната",
+            "description": "",
+            "translations": [
+              {
+                "id": 3,
+                "room_id": 1,
+                "locale": "en",
+                "title": "Стандартная комната",
+                "description": "",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 2,
+                "room_id": 1,
+                "locale": "kz",
+                "title": "Стандартная комната",
+                "description": "",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 1,
+                "room_id": 1,
+                "locale": "ru",
+                "title": "Стандартная комната",
+                "description": "",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "placement_id": 1,
+            "room_type_id": 1,
+            "price": "1.00",
+            "quantity": 10,
+            "min_booking_period": null,
+            "square": 10,
+            "smoking": 0,
+            "status": "active",
+            "created_at": "2024-06-24T10:22:39.000000Z",
+            "updated_at": "2024-06-24T10:22:39.000000Z",
+            "deleted_at": null,
+            "title": "Стандартная комната 2",
+            "description": "",
+            "translations": [
+              {
+                "id": 6,
+                "room_id": 2,
+                "locale": "en",
+                "title": "Стандартная комната 2",
+                "description": "",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 5,
+                "room_id": 2,
+                "locale": "kz",
+                "title": "Стандартная комната 2",
+                "description": "",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              },
+              {
+                "id": 4,
+                "room_id": 2,
+                "locale": "ru",
+                "title": "Стандартная комната 2",
+                "description": "",
+                "created_at": "2024-06-24T10:22:39.000000Z",
+                "updated_at": "2024-06-24T10:22:39.000000Z",
+                "deleted_at": null
+              }
+            ]
+          }
+        ],
+        "service_types": [],
+        "food_types": [],
+        "comforts": [],
+        "fines": []
+      },
+      "childrenCot": {
+        "id": 1,
+        "room_id": 1,
+        "quantity": 3,
+        "price": "1.00",
+        "deleted_at": null,
+        "created_at": "2024-06-24T10:22:39.000000Z",
+        "updated_at": "2024-06-24T10:22:39.000000Z"
+      },
+      "children": [
+        {
+          "id": 1,
+          "price": "100.00",
+          "range": "3-6",
+          "quantity": 2,
+          "room_id": 1
+        },
+        {
+          "id": 2,
+          "price": "200.00",
+          "range": "6-12",
+          "quantity": 3,
+          "room_id": 1
+        }
+      ],
+      "standartRoomTariffs": [],
+      "totalRoomPrice": 11.500000000000002
+    }
+  ],
+  "links": {
+    "first": "https://qazeli-new-back-dev.crocos.kz/api/v1/rooms-all?page=1",
+    "last": "https://qazeli-new-back-dev.crocos.kz/api/v1/rooms-all?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Назад",
+        "active": false
+      },
+      {
+        "url": "https://qazeli-new-back-dev.crocos.kz/api/v1/rooms-all?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Вперед &raquo;",
+        "active": false
+      }
+    ],
+    "path": "https://qazeli-new-back-dev.crocos.kz/api/v1/rooms-all",
+    "per_page": 10,
+    "to": 1,
+    "total": 1
   }
 }

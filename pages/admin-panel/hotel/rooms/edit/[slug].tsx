@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@/app/components/Card/Card";
 import PageHeader from "@/app/components/PageHeader/PageHeader";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
@@ -25,6 +25,8 @@ import Documents from "@/app/components/AddImagesContainer/AddImagesContainer";
 import DatePickerInput from "@/app/components/DatePickerInput/DatePickerInput";
 import { useAxios } from "@/app/context/AxiosContext";
 import { toast } from "react-toastify";
+import { GetServerSideProps } from "next";
+import useRoom from "@/app/hooks/useRoom";
 
 // Наименование на русском
 // Наименование на казахском
@@ -94,20 +96,50 @@ import { toast } from "react-toastify";
 //   }
 // }
 
-const Page = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let recordData;
+
+  try {
+    const { slug } = context.params as { slug: string };
+
+    return {
+      props: {
+        roomID: Number(slug),
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return {
+      props: {
+        record: null,
+      },
+    };
+  }
+};
+
+const Page = ({ roomID }: { roomID: number }) => {
   const axios = useAxios();
+
+  const {
+    data: room,
+    isLoading: isLoadingRoom,
+    isSuccess: isSuccessRoom,
+  } = useRoom(roomID);
+
+  const { data: roomTypes, isLoading: isLoadingRoomTypes } = useAllToomTypes(
+    {}
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<AddRoomFormType>({
     resolver: yupResolver(AddRoomFormSchema),
+    defaultValues: {},
   });
-
-  const { data: roomTypes, isLoading: isLoadingRoomTypes } = useAllToomTypes(
-    {}
-  );
 
   const {
     data: foodTypes,
@@ -135,22 +167,40 @@ const Page = () => {
 
   const onSubmit: SubmitHandler<AddRoomFormType> = async (data) => {
     let formData = new FormData();
-    let images = [];
+    let images = [] as any[];
 
     try {
-      data.gallery_images?.map((item) => {
-        formData.append("content[]", item.file);
-      });
+      const nonLocalImages = data.gallery_images
+        ?.filter((item) => !item.local)
+        .map((item) => item.id) as any[];
 
-      const responce = await axios.post("/api/v1/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const localImages = data.gallery_images?.filter(
+        (item) => item.local
+      ) as any[];
 
-      images = responce.data.data.map((item) => item.id);
+      images = nonLocalImages;
 
-      toast.success("Изображения успешно загружены");
+      if (localImages.length > 0) {
+        data.gallery_images?.map((item) => {
+          if (item.local) {
+            formData.append("content[]", item.file);
+          }
+        });
+
+        const responce = await axios.post("/api/v1/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        const responceImgs = responce.data.data.map((item) => item.id) as any[];
+
+        images = [...images, ...responceImgs];
+
+        console.log("images", images);
+
+        toast.success("Изображения успешно загружены");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Произошла ошибка при загрузке изображений");
@@ -190,14 +240,56 @@ const Page = () => {
         gallery_images: images,
       };
 
-      const response = await axios.post("/api/v1/rooms", completeRoomData);
+      console.log("completeRoomData", completeRoomData);
 
-      toast.success("Номер успешно добавлен");
+      const response = await axios.patch(
+        `/api/v1/rooms/${roomID}`,
+        completeRoomData
+      );
+
+      console.log("response patch room", response);
+
+      toast.success("Номер успешно изменен");
     } catch (error) {
       console.log(error);
-      toast.error("Произошла ошибка при добавлении номера");
+      toast.error("Произошла ошибка при измении номера");
     }
   };
+
+  console.log("room.ru", room?.ru);
+
+  useEffect(() => {
+    if (room && isSuccessRoom) {
+      reset({
+        title: {
+          ru: room.ru.title,
+          kz: room.kz.title,
+          en: room.en.title,
+        },
+        description: {
+          ru: room.ru.description,
+          kz: room.kz.description,
+          en: room.en.description,
+        },
+        square: room.ru.square,
+        price: Number(room.ru.price),
+        min_booking_period: room.ru.min_booking_period,
+        cot_price: Number(room.ru.childrenCot.price),
+        cot_quantity: room.ru.childrenCot.quantity,
+        fine: Number(room.ru.room_settlement.fine),
+        quantity: room.ru.default_quantity,
+        smoking: Boolean(room.ru.smoking),
+        placement_id: room.ru.placement.id,
+        room_type_id: room.ru.room_type.id,
+        food_types: room.ru.food_types.map((item) => item.id),
+        comforts: room.ru.comfort_rooms.map((item) => item.id),
+        cancellation_id: room.ru.room_settlement.cancellation.id,
+        check_in: new Date(),
+        check_out: new Date(),
+        gallery_images: room.ru.gallery_images,
+      });
+    }
+  }, [isSuccessRoom]);
 
   const placementOptions = placements?.map((placement) => ({
     label: placement.title,
@@ -229,7 +321,7 @@ const Page = () => {
   return (
     <AdminWrapper>
       <div className="rooms-add-page">
-        <PageHeader title="Добавить номер" goBack={true} />
+        <PageHeader title="Редактироание номера" goBack={true} />
         <Card>
           <div className="form-card-content">
             <div className="form-header">Добавление нового номера</div>
@@ -446,18 +538,9 @@ const Page = () => {
               </InputGroup>
 
               <InputGroup label="">
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    flexWrap: "wrap",
-                  }}
-                >
+                <div>
                   <Button size="sm" type="submit">
-                    Добавить
-                  </Button>
-                  <Button size="sm" color="dark">
-                    Сохранить и добавить еще
+                    Изменить
                   </Button>
                 </div>
               </InputGroup>

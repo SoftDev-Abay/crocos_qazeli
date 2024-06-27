@@ -19,6 +19,7 @@ const Documents = ({ control, error }) => {
 
     const files = uploadedFiles.map((file) => ({
       file,
+      local: true,
     }));
 
     append(files);
@@ -49,7 +50,7 @@ const Documents = ({ control, error }) => {
       </p>
 
       <div className="img-container">
-        {fields.map(({ gallery_images_id, file }, index) => (
+        {fields.map(({ gallery_images_id, file, path }, index) => (
           <div key={gallery_images_id}>
             <Controller
               control={control}
@@ -58,7 +59,7 @@ const Documents = ({ control, error }) => {
                 <img
                   width={100}
                   height={100}
-                  src={URL.createObjectURL(file)}
+                  src={file ? URL.createObjectURL(file) : path}
                   alt="document"
                   onClick={() => remove(index)}
                 />

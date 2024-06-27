@@ -11,6 +11,9 @@ interface Props {
   inputError?: string;
 }
 
+//  "check_in": "2025-01-01T15:00:00",
+//  should only show time picker
+
 const DatePickerInput = ({ control, name }: Props) => {
   return (
     <div>
@@ -22,9 +25,13 @@ const DatePickerInput = ({ control, name }: Props) => {
             <DatePicker
               selected={field.value}
               onChange={(date) => field.onChange(date)}
-              timeIntervals={15}
-              timeCaption="Date"
               className="date-picker-custom-input"
+              showTimeSelect
+              showTimeSelectOnly
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              timeCaption="time"
+              dateFormat="yyyy-MM-dd h:mm aa"
             />
 
             {error && error.message && <InputErrorText error={error.message} />}

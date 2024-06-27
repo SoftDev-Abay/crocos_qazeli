@@ -40,6 +40,7 @@ type Props = {
   disabled?: boolean;
   noOptionMessage?: string;
   error?: string;
+  isLoading?: boolean;
 };
 
 const AdminSelect: React.FC<Props> = ({
@@ -59,6 +60,7 @@ const AdminSelect: React.FC<Props> = ({
   multiple,
   noOptionMessage,
   disabled = false,
+  isLoading,
   error,
 }) => {
   const customStyles = {
@@ -139,6 +141,7 @@ const AdminSelect: React.FC<Props> = ({
           render={({ field: { value, onChange, onBlur, ref } }) => {
             return (
               <Select
+                isLoading={isLoading}
                 styles={customStyles}
                 ref={ref}
                 theme={(theme) => ({

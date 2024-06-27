@@ -7,6 +7,8 @@ import Button from "@/app/components/Button/Button";
 import useAllRooms from "@/app/hooks/useAllRooms";
 import { useRouter } from "next/router";
 import "./style.scss";
+import { useAxios } from "@/app/context/AxiosContext";
+import useDeleteRoom from "@/app/hooks/useDeleteRoom";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
 
@@ -31,6 +33,8 @@ const itemLabels = [
 
 const Page = () => {
   const [currentTab, setCurrentTab] = useState(staticTabs[0]);
+  const axios = useAxios();
+  const deleteRoom = useDeleteRoom();
 
   const { data, isLoading } = useAllRooms({});
 
@@ -69,8 +73,12 @@ const Page = () => {
                 item={room}
                 labelPaths={itemLabels}
                 actions={{
-                  edit: () => {},
-                  delete: () => {},
+                  edit: () => {
+                    router.push(`/admin-panel/hotel/rooms/edit/${room.id}`);
+                  },
+                  delete: () => {
+                    return deleteRoom.mutate(room.id);
+                  },
                   view: () => {},
                 }}
               />

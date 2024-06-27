@@ -27,7 +27,7 @@ const phoneRegExp = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
 
 export let ContactFormSchema = object({
   name: string()
-    .min(2, "minField2")
+    .min(2, "Minimum length is 2 characters")
     .max(50, "Maximum length is 50 characters")
     .required("Field is required"),
   email: string()
@@ -128,11 +128,15 @@ export type ContactFormType = InferType<typeof ContactFormSchema>;
 export let AddRoomFormSchema = object({
   title: object({
     ru: string()
-      .min(2, "minField2")
+      .min(2, "Minimum length is 2 characters")
       .max(50, "Maximum length is 50 characters")
       .required("Field is required"),
-    en: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
-    kz: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
+    en: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    kz: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
   }).test(
     "at-least-one",
     "atLeastOne",
@@ -140,11 +144,15 @@ export let AddRoomFormSchema = object({
   ),
   description: object({
     ru: string()
-      .min(2, "minField2")
+      .min(2, "Minimum length is 2 characters")
       .max(50, "Maximum length is 50 characters")
       .required("Field is required"),
-    en: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
-    kz: string().min(2, "minField2").max(50, "Maximum length is 50 characters"),
+    en: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    kz: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
   }),
   placement_id: number().required("Field is required"),
   room_type_id: number().required("Field is required"),
@@ -167,9 +175,51 @@ export let AddRoomFormSchema = object({
   cot_quantity: number().integer().nullable().required("Field is required"),
   cot_price: number().nullable().required("Field is required"),
   fine: number().nullable().required("Field is required"),
-  cancellation_id: string().required("Field is required"),
+  cancellation_id: number().required("Field is required"),
   check_in: date().required("Field is required"),
   check_out: date().required("Field is required"),
 });
 
 export type AddRoomFormType = InferType<typeof AddRoomFormSchema>;
+
+// {
+//   "placement_id": 1,
+//   "percent": 14.5,
+//   "rooms": [
+//     1,
+//     2,
+//     3
+//   ],
+//   "ru": {
+//     "title": "Заголовок на русском языке"
+//   },
+//   "en": {
+//     "title": "Заголовок на английском языке"
+//   },
+//   "kz": {
+//     "title": "Заголовок на казахском языке"
+//   }
+// }
+
+export let AddTariffFormSchema = object({
+  title: object({
+    ru: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    en: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    kz: string()
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+  }).test(
+    "at-least-one",
+    "atLeastOne",
+    (value) => value.ru !== null || value.ru !== null || value.ru !== null
+  ),
+  percent: number().nullable().required("Field is required"),
+  rooms: array().required("Field is required"),
+  placement_id: number().required("Field is required"),
+});
+
+export type AddTariffFormType = InferType<typeof AddTariffFormSchema>;

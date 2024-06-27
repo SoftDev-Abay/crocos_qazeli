@@ -33,9 +33,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, labelPaths, actions }) => {
     setIsShow(false);
   };
 
-  const handleConfirm = () => {
-    actions.delete();
-
+  const handleConfirm = async () => {
+    await actions.delete();
     setIsShow(false);
   };
 

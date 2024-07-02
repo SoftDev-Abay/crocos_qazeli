@@ -132,6 +132,10 @@ interface IPlacementType {
   created_at: string;
 }
 
+interface IPlacementTypeWithImage extends IPlacementType {
+  image: IImage;
+}
+
 interface ITypeItem {
   id: number;
   slug: string;
@@ -169,4 +173,10 @@ interface IPlacement {
 //   data: IPlacement;
 // }
 
-export type { IPlacement, IPlacementType, IImage, ITypeItem };
+export type {
+  IPlacement,
+  IPlacementType,
+  IImage,
+  ITypeItem,
+  IPlacementTypeWithImage,
+};

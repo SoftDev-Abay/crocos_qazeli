@@ -1,5 +1,6 @@
 // if this is present then it deletes spacing for html coming from backend
 @use "./colors.scss" as c;
+@import "fonts.scss";
 
 * {
   margin: 0;
@@ -12,6 +13,7 @@
 body {
   background-color: #f0f0f0;
   color: rgba(51, 51, 51, 1);
+  font-family: "Montserrat";
 }
 
 .highlighted {

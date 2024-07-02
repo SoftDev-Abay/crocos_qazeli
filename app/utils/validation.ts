@@ -9,6 +9,10 @@ import {
   array,
 } from "yup";
 
+// +7 (654) 564 65 56
+
+const phoneRegExp = /^\+7 \(\d{3}\) \d{3} \d{2} \d{2}$/;
+
 export let SignInSchema = object({
   email: string()
     .email("Please enter a valid email address")
@@ -22,8 +26,6 @@ export let SignInSchema = object({
 });
 
 export type SignInType = InferType<typeof SignInSchema>;
-
-const phoneRegExp = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
 
 export let ContactFormSchema = object({
   name: string()
@@ -45,114 +47,22 @@ export let ContactFormSchema = object({
 
 export type ContactFormType = InferType<typeof ContactFormSchema>;
 
-// add room fileds
-
-// this are the field that will on the fronetend
-
-// Наименование на русском
-// Наименование на казахском
-// Наименование на английском
-// Описание на русском
-// Описание на казахском
-// Описание на английском
-// Размещение
-// Тип
-// Питание
-// Площадь номера
-// Стоимость
-// Минимальное кол-во дней для
-// бронирования
-// Комната для курящих
-// Количество детских кроваток О-3 лет
-// Цена за детскую кроватку за день 3-б лет
-// Количество детских кроваток 6-12 лет
-// Цена за детскую кроватку за день 6-12 лет
-// Штраф
-// Условия отмены
-// Время заезда
-// Время выезда
-// Удобства номера
-// Количество номеров подобного типа
-// Галерея
-
-// these are the fields that will be send to the backend
-
-// cot is a really young baby
-// fine is a penalty
-// {
-//     "placement_id": 1,
-//     "room_type_id": 1,
-//     "gallery_images": [
-//       1,
-//       2,
-//       3
-//     ],
-//     "comforts": [
-//       1,
-//       2,
-//       3
-//     ],
-//     "food_types": [
-//       1,
-//       2,
-//       3
-//     ],
-//     "price": 150.75,
-//     "quantity": 1, // should be a integer number, nullable
-//     "square": 25, // should be a integer number, nullable
-//     "min_booking_period": 10, // should be a integer number, nullable
-//     "smoking": true,
-//     "status": "active",
-//     "cot_quantity": 2, // should be a integer number, nullable
-//     "cot_price": 20.5,  // should be nullable
-//     "fine": 100.5, // should be nullable
-//     "cancellation_id": "1",
-//     "check_in": "2025-01-01T15:00:00",
-//     "check_out": "2025-01-01T15:00:00",
-//     "ru": {
-//       "title": "Заголовок на русском языке",
-//       "description": "Описание на русском языке"
-//     },
-//     "en": {
-//       "title": "Заголовок на английском языке",
-//       "description": "Описание на английском языке"
-//     },
-//     "kz": {
-//       "title": "Заголовок на казахском языке",
-//       "description": "Описание на казахском языке"
-//     }
-//   }
-
-// I need to test so that at least one of the fields is filled in the language fields, to do that I need to use the test method from yup
-
 export let AddRoomFormSchema = object({
   title: object({
     ru: string()
-      .min(2, "Minimum length is 2 characters")
-      .max(50, "Maximum length is 50 characters")
-      .required("Field is required"),
-    en: string()
+      .required("Field is required")
       .min(2, "Minimum length is 2 characters")
       .max(50, "Maximum length is 50 characters"),
-    kz: string()
-      .min(2, "Minimum length is 2 characters")
-      .max(50, "Maximum length is 50 characters"),
-  }).test(
-    "at-least-one",
-    "atLeastOne",
-    (value) => value.ru !== null || value.ru !== null || value.ru !== null
-  ),
+    en: string(),
+    kz: string(),
+  }),
   description: object({
     ru: string()
-      .min(2, "Minimum length is 2 characters")
-      .max(50, "Maximum length is 50 characters")
-      .required("Field is required"),
-    en: string()
+      .required("Field is required")
       .min(2, "Minimum length is 2 characters")
       .max(50, "Maximum length is 50 characters"),
-    kz: string()
-      .min(2, "Minimum length is 2 characters")
-      .max(50, "Maximum length is 50 characters"),
+    en: string(),
+    kz: string(),
   }),
   placement_id: number().required("Field is required"),
   room_type_id: number().required("Field is required"),
@@ -182,25 +92,6 @@ export let AddRoomFormSchema = object({
 
 export type AddRoomFormType = InferType<typeof AddRoomFormSchema>;
 
-// {
-//   "placement_id": 1,
-//   "percent": 14.5,
-//   "rooms": [
-//     1,
-//     2,
-//     3
-//   ],
-//   "ru": {
-//     "title": "Заголовок на русском языке"
-//   },
-//   "en": {
-//     "title": "Заголовок на английском языке"
-//   },
-//   "kz": {
-//     "title": "Заголовок на казахском языке"
-//   }
-// }
-
 export let AddTariffFormSchema = object({
   title: object({
     ru: string()
@@ -223,3 +114,50 @@ export let AddTariffFormSchema = object({
 });
 
 export type AddTariffFormType = InferType<typeof AddTariffFormSchema>;
+
+export let AddPlacementFormSchema = object({
+  title: object({
+    ru: string()
+      .required("Field is required")
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    en: string(),
+    kz: string(),
+  }),
+  description: object({
+    ru: string()
+      .required("Field is required")
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    en: string(),
+    kz: string(),
+  }),
+  address: object({
+    ru: string()
+      .required("Field is required")
+      .min(2, "Minimum length is 2 characters")
+      .max(50, "Maximum length is 50 characters"),
+    en: string(),
+    kz: string(),
+  }),
+  rating: number().nullable().required("Field is required"),
+  lat: number().nullable().required("Field is required"),
+  lon: number().nullable().required("Field is required"),
+  phone: string()
+    .matches(
+      phoneRegExp,
+      "Must be a valid phone number, e.g. +7 (777) 777-77-77"
+    )
+    .required("requiredField"),
+  email: string().email("Invalid email").required("requiredField"),
+  gallery_images: array()
+    .min(1, "At least 1 image is required")
+    .max(5, "No more than 5 images are allowed"),
+  placement_type_id: number().required("Field is required"),
+  foods: array().required("Field is required"),
+  services: array().required("Field is required"),
+  city_id: number().required("Field is required"),
+  region: number().required("Field is required"),
+});
+
+export type AddPlacementFormType = InferType<typeof AddPlacementFormSchema>;

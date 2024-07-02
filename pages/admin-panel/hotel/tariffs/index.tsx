@@ -58,7 +58,7 @@ const Page = () => {
           setCurrentTab={setCurrentTab}
         /> */}
         <div className="tariffs-container">
-          {!isLoading &&
+          {!isLoading && data && data.length > 0 ? (
             data?.map((room) => (
               <ItemCard
                 key={room.id}
@@ -70,7 +70,10 @@ const Page = () => {
                   view: () => {},
                 }}
               />
-            ))}
+            ))
+          ) : (
+            <p>Тарифов пока нету. Добавьте новый тариф.</p>
+          )}
         </div>
       </>
     </AdminWrapper>

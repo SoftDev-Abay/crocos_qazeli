@@ -66,7 +66,7 @@ const Page = () => {
           setCurrentTab={setCurrentTab}
         /> */}
         <div className="rooms-container">
-          {!isLoading &&
+          {!isLoading && data && data?.length > 0 ? (
             data?.map((room) => (
               <ItemCard
                 key={room.id}
@@ -79,10 +79,15 @@ const Page = () => {
                   delete: () => {
                     return deleteRoom.mutate(room.id);
                   },
-                  view: () => {},
+                  view: () => {
+                    router.push(`/admin-panel/hotel/rooms/${room.id}`);
+                  },
                 }}
               />
-            ))}
+            ))
+          ) : (
+            <p>Номеров пока нету. Добавьте новый номер.</p>
+          )}
         </div>
       </>
     </AdminWrapper>

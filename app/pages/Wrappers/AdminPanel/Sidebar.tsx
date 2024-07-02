@@ -51,6 +51,8 @@ const links = {
 const Sidebar = () => {
   const router = useRouter();
 
+  const user = UseUserStore.getState().currentUser;
+
   const logout = () => {
     Cookies.remove("access_token");
     Cookies.remove("refresh_token");
@@ -79,8 +81,8 @@ const Sidebar = () => {
             <span>3</span>
           </div>
           <div className="text">
-            <p>SENATOR Hotel</p>
-            <span>hotel@mail.kz</span>
+            <p>{user?.first_name + " " + user?.last_name}</p>
+            <span>{user?.email}</span>
           </div>
         </div>
         <EditIcon color="#156CBD" width={20} height={20} />

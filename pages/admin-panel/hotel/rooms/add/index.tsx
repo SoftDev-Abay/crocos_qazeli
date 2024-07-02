@@ -260,7 +260,7 @@ const Page = () => {
                 <TextEditor
                   name="description.ru"
                   control={control}
-                  error={errors.description?.kz?.message}
+                  error={errors.description?.ru?.message}
                 />
               </InputGroup>
 
@@ -276,7 +276,7 @@ const Page = () => {
                 <TextEditor
                   name="description.en"
                   control={control}
-                  error={errors.description?.kz?.message}
+                  error={errors.description?.en?.message}
                 />
               </InputGroup>
 

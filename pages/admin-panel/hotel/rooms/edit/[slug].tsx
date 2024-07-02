@@ -102,6 +102,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { slug } = context.params as { slug: string };
 
+    if (!slug || isNaN(Number(slug)) || slug === "") {
+      return {
+        props: {
+          NotFound: true,
+        },
+      };
+    }
+
     return {
       props: {
         roomID: Number(slug),
@@ -111,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     console.error("Failed to fetch data:", error);
     return {
       props: {
-        record: null,
+        NotFound: true,
       },
     };
   }

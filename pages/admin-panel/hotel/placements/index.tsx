@@ -6,18 +6,9 @@ import PageHeader from "@/app/components/PageHeader/PageHeader";
 import Button from "@/app/components/Button/Button";
 import useAllPlacements from "@/app/hooks/useAlPlacements";
 import "./style.scss";
+import { useRouter } from "next/router";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
-
-const PageHeaderProps = {
-  buttons: [
-    <Button onClick={() => {}} size="sm" color="primary">
-      Добавить
-    </Button>,
-  ],
-  title: "Места размещения",
-  goBack: false,
-};
 
 const itemLabels = [
   {
@@ -42,7 +33,25 @@ const itemLabels = [
 const Page = () => {
   const [currentTab, setCurrentTab] = React.useState(staticTabs[0]);
 
+  const router = useRouter();
+
   const { data, isLoading } = useAllPlacements({});
+
+  const PageHeaderProps = {
+    buttons: [
+      <Button
+        onClick={() => {
+          router.push("/admin-panel/hotel/placements/add");
+        }}
+        size="sm"
+        color="primary"
+      >
+        Добавить
+      </Button>,
+    ],
+    title: "Места размещения",
+    goBack: false,
+  };
 
   return (
     <AdminWrapper>
@@ -54,7 +63,7 @@ const Page = () => {
           setCurrentTab={setCurrentTab}
         /> */}
         <div className="placements-container">
-          {!isLoading &&
+          {!isLoading && data && data.length > 0 ? (
             data?.map((room) => (
               <ItemCard
                 key={room.id}
@@ -63,10 +72,15 @@ const Page = () => {
                 actions={{
                   edit: () => {},
                   delete: () => {},
-                  view: () => {},
+                  view: () => {
+                    router.push(`/admin-panel/hotel/placements/${room.id}`);
+                  },
                 }}
               />
-            ))}
+            ))
+          ) : (
+            <p>Мест размещения пока нету. Добавьте новое место размещения.</p>
+          )}
         </div>
       </>
     </AdminWrapper>

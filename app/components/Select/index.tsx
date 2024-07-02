@@ -41,6 +41,7 @@ type Props = {
   noOptionMessage?: string;
   error?: string;
   isLoading?: boolean;
+  additonalChangeHandler?: Function;
 };
 
 const AdminSelect: React.FC<Props> = ({
@@ -62,6 +63,7 @@ const AdminSelect: React.FC<Props> = ({
   disabled = false,
   isLoading,
   error,
+  additonalChangeHandler,
 }) => {
   const customStyles = {
     control: (provided: any, state: any) => ({
@@ -172,9 +174,15 @@ const AdminSelect: React.FC<Props> = ({
                   multiple
                     ? (options) => {
                         onChange(options?.map((option: any) => option.value));
+                        additonalChangeHandler &&
+                          additonalChangeHandler(
+                            options?.map((option: any) => option.value)
+                          );
                       }
                     : (item) => {
                         onChange(item?.value);
+                        additonalChangeHandler &&
+                          additonalChangeHandler(item?.value);
                       }
                 }
                 getOptionValue={(option) => `${option["value"]}`}

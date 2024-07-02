@@ -40,26 +40,25 @@ const useAllTariffs = ({
   const axios = useAxios();
 
   return useQuery({
-    queryKey: ["rooms"], // Provide a valid QueryKey value
+    queryKey: ["tariffs"], // Provide a valid QueryKey value
     queryFn: async () => {
-      const { data } = await axios.get<IAllTariffsResponse>(
-        "/api/v1/rooms-all",
-        {
-          params: {
-            // per_page,
-            // filterFrom,
-            // room_id,
-            // placement_id,
-            // filterUntil,
-            // status,
-            page,
-          },
-        }
-      );
+      // Set the loading state to true
+      const { data } = await axios.get<IAllTariffsResponse>("/api/v1/tariffs", {
+        params: {
+          // per_page,
+          // filterFrom,
+          // room_id,
+          // placement_id,
+          // filterUntil,
+          // status,
+          page,
+        },
+      });
 
       // Return the data from the Axios response
       return data.data;
     },
+    // setLoading to false when the query execution is done
   });
 };
 

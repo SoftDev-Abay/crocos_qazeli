@@ -1,6 +1,6 @@
 @use "../../../../../styles/colors.scss" as c;
 
-.view-room-wrapper {
+.view-placement-wrapper {
   display: flex;
   gap: 40px;
   width: 100%;
@@ -22,12 +22,40 @@
       display: flex;
       align-items: center;
       gap: 25px;
-      margin-bottom: 20px;
       h1 {
         font-family: Montserrat;
         font-size: 36px;
         font-weight: 500;
         line-height: 43.88px;
+      }
+    }
+
+    .contact-info {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+      span {
+        color: c.$color-accent;
+      }
+    }
+    .address {
+      margin-bottom: 15px;
+    }
+
+    .edit-link-wrappper {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+      text-decoration: none;
+
+      span {
+        color: c.$color-primary;
+        font-family: Montserrat;
+        font-weight: 500;
+        text-decoration: none;
+        text-transform: none;
+        font-size: 16px;
       }
     }
     .view-room-content {
@@ -42,37 +70,10 @@
         flex-direction: column;
         gap: 15px;
 
-        .square-data-wrapper {
-          display: flex;
-          gap: 10px;
-          align-items: center;
-        }
-      }
-      .room-conditions-box {
-        .title {
+        .description {
+          color: c.$color-accent;
           font-family: Montserrat;
-          font-size: 16px;
-          font-weight: 600;
-          line-height: 19.5px;
-          margin-bottom: 10px;
-        }
-        .condition-values {
-          display: flex;
-          flex-direction: column;
-          gap: 15px;
-          .condition-value {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            strong {
-              font-weight: 600;
-            }
-          }
-        }
-
-        .icon {
-          width: 22px;
-          height: 22px;
+          font-size: 14px;
         }
       }
 

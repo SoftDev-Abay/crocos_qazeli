@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
 import ItemCard from "@/app/components/ItemCard/ItemCard";
 import Tabs from "@/app/components/Tabs/Tabs";
@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import "./style.scss";
 import { useAxios } from "@/app/context/AxiosContext";
 import useDeleteRoom from "@/app/hooks/useDeleteRoom";
+import { useLoadingContext } from "@/app/context/LoadingContext";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
 
@@ -36,7 +37,7 @@ const Page = () => {
   const axios = useAxios();
   const deleteRoom = useDeleteRoom();
 
-  const { data, isLoading } = useAllRooms({});
+  const { data, isLoading: isLoadingRooms } = useAllRooms({});
 
   const router = useRouter();
 
@@ -56,6 +57,12 @@ const Page = () => {
     goBack: false,
   };
 
+  const { setIsLoading } = useLoadingContext();
+
+  useEffect(() => {
+    setIsLoading(isLoadingRooms);
+  }, [isLoadingRooms]);
+
   return (
     <AdminWrapper>
       <>
@@ -66,28 +73,30 @@ const Page = () => {
           setCurrentTab={setCurrentTab}
         /> */}
         <div className="rooms-container">
-          {!isLoading && data && data?.length > 0 ? (
-            data?.map((room) => (
-              <ItemCard
-                key={room.id}
-                item={room}
-                labelPaths={itemLabels}
-                actions={{
-                  edit: () => {
-                    router.push(`/admin-panel/hotel/rooms/edit/${room.id}`);
-                  },
-                  delete: () => {
-                    return deleteRoom.mutate(room.id);
-                  },
-                  view: () => {
-                    router.push(`/admin-panel/hotel/rooms/${room.id}`);
-                  },
-                }}
-              />
-            ))
-          ) : (
-            <p>Номеров пока нету. Добавьте новый номер.</p>
-          )}
+          {!isLoadingRooms && data ? (
+            data?.length > 0 ? (
+              data?.map((room) => (
+                <ItemCard
+                  key={room.id}
+                  item={room}
+                  labelPaths={itemLabels}
+                  actions={{
+                    edit: () => {
+                      router.push(`/admin-panel/hotel/rooms/edit/${room.id}`);
+                    },
+                    delete: () => {
+                      return deleteRoom.mutate(room.id);
+                    },
+                    view: () => {
+                      router.push(`/admin-panel/hotel/rooms/${room.id}`);
+                    },
+                  }}
+                />
+              ))
+            ) : (
+              <p>Номеров пока нету. Добавьте новый номер.</p>
+            )
+          ) : null}
         </div>
       </>
     </AdminWrapper>

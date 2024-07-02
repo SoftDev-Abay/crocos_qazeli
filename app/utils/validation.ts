@@ -27,26 +27,6 @@ export let SignInSchema = object({
 
 export type SignInType = InferType<typeof SignInSchema>;
 
-export let ContactFormSchema = object({
-  name: string()
-    .min(2, "Minimum length is 2 characters")
-    .max(50, "Maximum length is 50 characters")
-    .required("Field is required"),
-  email: string()
-    .email("Please enter a valid email address")
-    .min(5, "Minimum length is 5 characters")
-    .max(50, "Maximum length is 50 characters")
-    .required("Field is required"),
-  phone_number: string()
-    .matches(phoneRegExp, "phone")
-    .required("Field is required"),
-  agree: boolean()
-    .test("is-true", "agree", (value) => value === true)
-    .required("Field is required"),
-});
-
-export type ContactFormType = InferType<typeof ContactFormSchema>;
-
 export let AddRoomFormSchema = object({
   title: object({
     ru: string()
@@ -60,7 +40,7 @@ export let AddRoomFormSchema = object({
     ru: string()
       .required("Field is required")
       .min(2, "Minimum length is 2 characters")
-      .max(50, "Maximum length is 50 characters"),
+      .max(200, "Maximum length is 50 characters"),
     en: string(),
     kz: string(),
   }),
@@ -128,7 +108,7 @@ export let AddPlacementFormSchema = object({
     ru: string()
       .required("Field is required")
       .min(2, "Minimum length is 2 characters")
-      .max(50, "Maximum length is 50 characters"),
+      .max(200, "Maximum length is 50 characters"),
     en: string(),
     kz: string(),
   }),

@@ -27,6 +27,7 @@ import { useAxios } from "@/app/context/AxiosContext";
 import { toast } from "react-toastify";
 import { GetServerSideProps } from "next";
 import useRoom from "@/app/hooks/useRoom";
+import { AxiosError } from "axios";
 
 // Наименование на русском
 // Наименование на казахском
@@ -259,8 +260,15 @@ const Page = ({ roomID }: { roomID: number }) => {
 
       toast.success("Номер успешно изменен");
     } catch (error) {
-      console.log(error);
-      toast.error("Произошла ошибка при измении номера");
+      if (
+        error instanceof AxiosError &&
+        error.response?.data &&
+        error.response?.data.errors
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Произошла ошибка при измении номера");
+      }
     }
   };
 

@@ -1,13 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAxios } from "@/app/context/AxiosContext";
 import { toast } from "react-toastify";
+import { useLoadingContext } from "../context/LoadingContext";
 
 const useDeleteRoom = () => {
   const axios = useAxios();
   const queryClient = useQueryClient();
+  // const { setLoading } = useLoadingContext();
 
   return useMutation({
     mutationFn: (id: number) => {
+      // setLoading(true); // Set loading to true before making the API call
       return axios.delete(`/api/v1/rooms/${id}`);
     },
     onSuccess: () => {
@@ -19,6 +22,9 @@ const useDeleteRoom = () => {
     onError: () => {
       toast.error("Error deleting room");
       console.log("Error deleting room");
+    },
+    onSettled: () => {
+      // setLoading(false); // Set loading to false after the API call is done
     },
   });
 };

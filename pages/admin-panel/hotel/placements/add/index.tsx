@@ -27,6 +27,7 @@ import useAllServiceTypes from "@/app/hooks/useAllServiceTypes";
 import useAllRegions from "@/app/hooks/useAllRegions";
 import LocationInput from "@/app/components/LocationInput/LocationInput";
 import { UseUserStore } from "@/app/store/useUserStore";
+import { AxiosError } from "axios";
 // Наименование на русском
 // Наименование на казахском
 // Наименование на английском
@@ -173,7 +174,16 @@ const Page = () => {
       toast.success("Место размещения успешно добавлен");
     } catch (error) {
       console.log(error);
-      toast.error("Произошла ошибка при добавлении Место размещения");
+
+      if (
+        error instanceof AxiosError &&
+        error.response?.data &&
+        error.response?.data.errors
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Произошла ошибка при добавлении места размещения");
+      }
     }
   };
 

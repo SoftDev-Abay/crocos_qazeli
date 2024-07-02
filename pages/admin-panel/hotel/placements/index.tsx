@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
 import ItemCard from "@/app/components/ItemCard/ItemCard";
 import Tabs from "@/app/components/Tabs/Tabs";
@@ -7,6 +7,8 @@ import Button from "@/app/components/Button/Button";
 import useAllPlacements from "@/app/hooks/useAlPlacements";
 import "./style.scss";
 import { useRouter } from "next/router";
+import useDeletePlacement from "@/app/hooks/useDeletePlacement";
+import { useLoadingContext } from "@/app/context/LoadingContext";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
 
@@ -35,7 +37,9 @@ const Page = () => {
 
   const router = useRouter();
 
-  const { data, isLoading } = useAllPlacements({});
+  const deletePlacement = useDeletePlacement();
+
+  const { data, isLoading: isLoadingPlacements } = useAllPlacements({});
 
   const PageHeaderProps = {
     buttons: [
@@ -53,6 +57,12 @@ const Page = () => {
     goBack: false,
   };
 
+  const { isLoading, setIsLoading } = useLoadingContext();
+
+  useEffect(() => {
+    setIsLoading(isLoadingPlacements);
+  }, [isLoadingPlacements]);
+
   return (
     <AdminWrapper>
       <>
@@ -63,24 +73,30 @@ const Page = () => {
           setCurrentTab={setCurrentTab}
         /> */}
         <div className="placements-container">
-          {!isLoading && data && data.length > 0 ? (
-            data?.map((room) => (
-              <ItemCard
-                key={room.id}
-                item={room}
-                labelPaths={itemLabels}
-                actions={{
-                  edit: () => {},
-                  delete: () => {},
-                  view: () => {
-                    router.push(`/admin-panel/hotel/placements/${room.id}`);
-                  },
-                }}
-              />
-            ))
-          ) : (
-            <p>Мест размещения пока нету. Добавьте новое место размещения.</p>
-          )}
+          {!isLoadingPlacements && data ? (
+            data.length > 0 ? (
+              data?.map((placement) => (
+                <ItemCard
+                  key={placement.id}
+                  item={placement}
+                  labelPaths={itemLabels}
+                  actions={{
+                    edit: () => {},
+                    delete: () => {
+                      deletePlacement.mutate(placement.id);
+                    },
+                    view: () => {
+                      router.push(
+                        `/admin-panel/hotel/placements/${placement.id}`
+                      );
+                    },
+                  }}
+                />
+              ))
+            ) : (
+              <p>Мест размещения пока нету. Добавьте новое место размещения.</p>
+            )
+          ) : null}
         </div>
       </>
     </AdminWrapper>

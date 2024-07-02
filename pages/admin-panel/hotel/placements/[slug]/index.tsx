@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
 import useRoom from "@/app/hooks/useRoom";
 import { GetServerSideProps } from "next";
@@ -9,7 +9,7 @@ import "./style.scss";
 import EditIcon from "@/app/icons/EditIcon";
 // I need icons: arrow left cirlce, arrow right cirlce, coffee cup, close square, fine, and some kind of icon for displaing the room square
 import SwiperGallery from "@/app/components/SwiperGallery/SwiperGallery";
-
+import HtmlRenderer from "@/app/components/HtmlRenderer/HtmlRenderer";
 import {
   FaSmokingBan,
   FaCoffee,
@@ -22,7 +22,8 @@ import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import usePlacement from "@/app/hooks/usePlacement";
-
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { useLoadingContext } from "@/app/context/LoadingContext";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let recordData;
 
@@ -45,7 +46,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Page = ({ placementId }: { placementId: number }) => {
-  const { data, error, isLoading } = usePlacement(placementId);
+  const {
+    data,
+    error,
+    isLoading: isLoadingPlacement,
+  } = usePlacement(placementId);
 
   const router = useRouter();
 
@@ -67,6 +72,12 @@ const Page = ({ placementId }: { placementId: number }) => {
 
   const defaultValue = "Не указано";
 
+  const { setIsLoading } = useLoadingContext();
+
+  useEffect(() => {
+    setIsLoading(isLoadingPlacement);
+  }, [isLoadingPlacement]);
+
   console.log(data);
 
   return (
@@ -74,72 +85,95 @@ const Page = ({ placementId }: { placementId: number }) => {
       <>
         <PageHeader {...PageHeaderProps} />
         <Card padding="padding-small">
-          <div className="view-room-wrapper">
-            {!isLoading && data && (
-              <>
-                <div className="gallery-container">
-                  <SwiperGallery
-                    images={data.ru.gallery_images.map((image) => image.path)}
-                  />
-                </div>
-                <div className="view-room-info-container">
-                  <div className="view-room-heading">
-                    <h1>{data.ru.title}</h1>
-                    <Link href={`/admin-panel/hotel/rooms/edit/${placementId}`}>
-                      <EditIcon color="#58D072" width={24} height={24} />
-                    </Link>
+          <div className="view-placement-wrapper">
+            {!isLoadingPlacement ? (
+              data ? (
+                <>
+                  <div className="gallery-container">
+                    <SwiperGallery
+                      images={data.ru.gallery_images.map((image) => image.path)}
+                    />
                   </div>
-                  {/* <div className="view-room-content">
-                    <div>
-                      <div className="regular-info-block">
-                        <p className="label">Тип номера</p>
-                        <p className="value">{data.ru.room_type.title}</p>
+                  <div className="view-room-info-container">
+                    <div className="view-room-heading">
+                      <h1>{data.ru.title}</h1>
+
+                      <div className="stars-wrapper">
+                        {Array.from({ length: 5 }, (_, index) => {
+                          if (index < data.ru.rating) {
+                            return (
+                              <FaStar
+                                width={"30px"}
+                                height={"30px"}
+                                key={index}
+                              />
+                            );
+                          }
+                          return (
+                            <FaRegStar
+                              width={"30px"}
+                              height={"30px"}
+                              key={index}
+                            />
+                          );
+                        })}
                       </div>
-                      {data.ru.smoking ? <div>Комната для курящих</div> : null}
                     </div>
 
-                    <div className="regular-info-block">
-                      <p className="label">Стоимость комнаты</p>
-                      <p className="value">{data.ru.price || defaultValue}</p>
+                    <div className="contact-info">
+                      <span>{data.ru.email}</span>
+
+                      <span>{data.ru.phone}</span>
                     </div>
 
-                    <div className="regular-info-block">
-                      <p className="label">Удобства номера</p>
-                      <p className="value">
-                        {data.ru.comfort_rooms[0]?.title || defaultValue}
-                      </p>
-                    </div>
-                    <div className="regular-info-block">
-                      <p className="label">
-                        Минимальное количество дней для бронирования
-                      </p>
-                      <p className="value">
-                        {data.ru.min_booking_period || defaultValue}
-                      </p>
+                    <div className="address">
+                      {data.ru.city.title}, {data.ru.region.title}
                     </div>
 
-                    <div className="description-block">
-                      <p className="label">Описание</p>
-                      {data.ru.square && (
-                        <div className="square-data-wrapper">
-                          <FaSquare fill="#f8c35d" width={22} height={22} />
-                          <span>{`S ${data.ru.square} м2`}</span>
-                        </div>
-                      )}
+                    <Link
+                      className="edit-link-wrappper"
+                      href={`/admin-panel/hotel/placement/edit/${placementId}`}
+                    >
+                      <EditIcon color="#156cbd" width={20} height={20} />
+                      <span>Редактировать</span>
+                    </Link>
 
-                      {data.ru.description && (
-                        <div
-                          className="description"
-                          dangerouslySetInnerHTML={{
-                            __html: data.ru.description,
-                          }}
-                        ></div>
-                      )}
+                    <div className="view-room-content">
+                      <div className="regular-info-block">
+                        <p className="label">Удобства номера</p>
+                        <p className="value">
+                          {data.ru?.comforts[0]?.title || defaultValue}
+                        </p>
+                      </div>
+                      <div className="regular-info-block">
+                        <p className="label">Питание</p>
+                        <p className="value">
+                          {data.ru?.food_types[0]?.title || defaultValue}
+                        </p>
+                      </div>
+                      <div className="regular-info-block">
+                        <p className="label">Количество номеров всего</p>
+                        <p className="value">
+                          {data.ru?.rooms?.length || defaultValue}
+                        </p>
+                      </div>
+
+                      <div className="description-block">
+                        <p className="label">Описание</p>
+                        {data.ru.description && (
+                          <HtmlRenderer
+                            className="description"
+                            unsafeHtml={data.ru.description}
+                          />
+                        )}
+                      </div>
                     </div>
-                  </div> */}
-                </div>
-              </>
-            )}
+                  </div>
+                </>
+              ) : (
+                <div>No placement with such id exists.</div>
+              )
+            ) : null}
           </div>
         </Card>
       </>

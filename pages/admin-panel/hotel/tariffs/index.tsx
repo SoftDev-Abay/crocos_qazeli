@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
 import ItemCard from "@/app/components/ItemCard/ItemCard";
 import Tabs from "@/app/components/Tabs/Tabs";
@@ -7,6 +7,8 @@ import Button from "@/app/components/Button/Button";
 import useAllTariffs from "@/app/hooks/useAllTariffs";
 import "./style.scss";
 import { useRouter } from "next/router";
+import useDeleteTariff from "@/app/hooks/useDeleteTariff";
+import { useLoadingContext } from "@/app/context/LoadingContext";
 
 const staticTabs = ["Rooms", "Users", "Bookings"];
 
@@ -30,7 +32,15 @@ const Page = () => {
 
   const router = useRouter();
 
-  const { data, isLoading } = useAllTariffs({});
+  const { data, isLoading: isLoadingTariffs } = useAllTariffs({});
+
+  const deleteTariff = useDeleteTariff();
+
+  const { setIsLoading } = useLoadingContext();
+
+  useEffect(() => {
+    setIsLoading(isLoadingTariffs);
+  }, [isLoadingTariffs]);
 
   const PageHeaderProps = {
     buttons: [
@@ -58,22 +68,27 @@ const Page = () => {
           setCurrentTab={setCurrentTab}
         /> */}
         <div className="tariffs-container">
-          {!isLoading && data && data.length > 0 ? (
-            data?.map((room) => (
-              <ItemCard
-                key={room.id}
-                item={room}
-                labelPaths={itemLabels}
-                actions={{
-                  edit: () => {},
-                  delete: () => {},
-                  view: () => {},
-                }}
-              />
-            ))
-          ) : (
-            <p>Тарифов пока нету. Добавьте новый тариф.</p>
-          )}
+          {!isLoadingTariffs
+            ? data &&
+              (data.length > 0 ? (
+                data?.map((room) => (
+                  <ItemCard
+                    key={room.id}
+                    item={room}
+                    labelPaths={itemLabels}
+                    actions={{
+                      edit: () => {},
+                      delete: () => {
+                        deleteTariff.mutate(room.id);
+                      },
+                      view: () => {},
+                    }}
+                  />
+                ))
+              ) : (
+                <p>Тарифов пока нету. Добавьте новый тариф.</p>
+              ))
+            : null}
         </div>
       </>
     </AdminWrapper>

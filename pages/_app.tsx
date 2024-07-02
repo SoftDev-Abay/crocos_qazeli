@@ -11,9 +11,12 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import { LoadingContext } from "@/app/context/LoadingContext";
+import { useLoading } from "@/app/context/LoadingContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const { isLoading, setIsLoading } = useLoading();
 
   const queryClient = new QueryClient();
 
@@ -24,12 +27,14 @@ export default function App({ Component, pageProps }: AppProps) {
         timeZone="Europe/Vienna"
         messages={pageProps.messages}
       >
-        <QueryClientProvider client={queryClient}>
-          <AxiosProvider>
-            <ToastContainer />
-            <Component {...pageProps} />
-          </AxiosProvider>
-        </QueryClientProvider>
+        <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
+          <QueryClientProvider client={queryClient}>
+            <AxiosProvider>
+              <ToastContainer />
+              <Component {...pageProps} />
+            </AxiosProvider>
+          </QueryClientProvider>
+        </LoadingContext.Provider>
       </NextIntlClientProvider>
     </AppCacheProvider>
   );

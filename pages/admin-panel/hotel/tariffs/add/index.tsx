@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Card from "@/app/components/Card/Card";
 import PageHeader from "@/app/components/PageHeader/PageHeader";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
@@ -16,6 +16,8 @@ import AdminSelect from "@/app/components/Select";
 import { useAxios } from "@/app/context/AxiosContext";
 import { toast } from "react-toastify";
 import useAllRooms from "@/app/hooks/useAllRooms";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 const Page = () => {
   const axios = useAxios();
@@ -29,9 +31,12 @@ const Page = () => {
     formState: { errors },
     control,
     watch,
+    reset,
   } = useForm<AddTariffFormType>({
     resolver: yupResolver(AddTariffFormSchema),
   });
+
+  const buttonTypeRef = useRef<string | null>(null);
 
   const placementId = watch("placement_id");
 
@@ -53,6 +58,8 @@ const Page = () => {
     error: errorPlacements,
   } = useAllPlacements({});
 
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<AddTariffFormType> = async (data) => {
     try {
       const completeRoomData = {
@@ -72,10 +79,25 @@ const Page = () => {
 
       const response = await axios.post("/api/v1/tariffs", completeRoomData);
 
-      toast.success("Тарифф успешно добавлен");
+      if (buttonTypeRef.current === "add") {
+        toast.success("Тарифф успешно добавлен");
+        router.push("/admin-panel/hotel/tariffs");
+      } else if (buttonTypeRef.current === "addMore") {
+        toast.success("Тарифф успешно добавлен");
+        reset();
+      }
     } catch (error) {
       console.log(error);
-      toast.error("Произошла ошибка при добавлении тариффа");
+
+      if (
+        error instanceof AxiosError &&
+        error.response?.data &&
+        error.response?.data.errors
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Произошла ошибка при добавлении тариффа");
+      }
     }
   };
 
@@ -89,9 +111,9 @@ const Page = () => {
     value: room.id,
   }));
 
-  console.log("rooms", rooms);
-
-  console.log("selectedPlacementId", selectedPlacementId);
+  const handleButtonClick = (type: string) => {
+    buttonTypeRef.current = type;
+  };
 
   return (
     <AdminWrapper>
@@ -162,10 +184,22 @@ const Page = () => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Button size="sm" type="submit">
+                  <Button
+                    size="sm"
+                    type="submit"
+                    onClick={() => {
+                      handleButtonClick("add");
+                    }}
+                  >
                     Добавить
                   </Button>
-                  <Button size="sm" color="dark">
+                  <Button
+                    size="sm"
+                    color="dark"
+                    onClick={() => {
+                      handleButtonClick("addMore");
+                    }}
+                  >
                     Сохранить и добавить еще
                   </Button>
                 </div>

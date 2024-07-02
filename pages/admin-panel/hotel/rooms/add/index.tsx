@@ -25,6 +25,7 @@ import Documents from "@/app/components/AddImagesContainer/AddImagesContainer";
 import DatePickerInput from "@/app/components/DatePickerInput/DatePickerInput";
 import { useAxios } from "@/app/context/AxiosContext";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 // Наименование на русском
 // Наименование на казахском
@@ -195,7 +196,16 @@ const Page = () => {
       toast.success("Номер успешно добавлен");
     } catch (error) {
       console.log(error);
-      toast.error("Произошла ошибка при добавлении номера");
+
+      if (
+        error instanceof AxiosError &&
+        error.response?.data &&
+        error.response?.data.errors
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Произошла ошибка при добавлении номера");
+      }
     }
   };
 

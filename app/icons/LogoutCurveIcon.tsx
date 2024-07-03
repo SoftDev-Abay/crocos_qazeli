@@ -19,9 +19,9 @@ const LogoutCurveIcon = ({
       <path
         d="M6.30409 5.35492C6.52367 2.80492 7.83409 1.76367 10.7028 1.76367H10.7949C13.9612 1.76367 15.2291 3.03159 15.2291 6.19784V10.8162C15.2291 13.9824 13.9612 15.2503 10.7949 15.2503H10.7028C7.85534 15.2503 6.54492 14.2233 6.31117 11.7158M10.6249 8.49992H2.56409M4.14367 6.127L1.77075 8.49992L4.14367 10.8728"
         stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

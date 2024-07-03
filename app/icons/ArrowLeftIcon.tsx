@@ -19,10 +19,10 @@ const ArrowLeftIcon = ({
       <path
         d="M6.77859 4.2002L2.479 8.49978L6.77859 12.7994M14.5207 8.49978H2.59942"
         stroke={color}
-        stroke-width="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

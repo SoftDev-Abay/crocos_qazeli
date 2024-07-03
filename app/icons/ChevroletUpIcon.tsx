@@ -18,10 +18,10 @@ const ChevroletUpIcon = ({
       <path
         d="M14.1101 6.33984L9.4918 10.9582C8.94639 11.5036 8.05389 11.5036 7.50847 10.9582L2.89014 6.33984"
         stroke={color}
-        stroke-width="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

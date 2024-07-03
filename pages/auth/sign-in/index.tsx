@@ -14,6 +14,8 @@ import { useAxios } from "@/app/context/AxiosContext";
 import { UseUserStore } from "@/app/store/useUserStore";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 const Page = () => {
   const [passwordType, setPasswordType] = useState("password");
@@ -50,9 +52,21 @@ const Page = () => {
       Cookies.set("access_token", access_token);
       Cookies.set("refresh_token", refresh_token);
 
+      toast.success("Авторизация прошла успешно!");
+
       router.push("/admin-panel");
     } catch (error) {
       console.log(error);
+
+      if (
+        error instanceof AxiosError &&
+        error.response?.data &&
+        error.response?.data.errors
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Произошла ошибка при авторизации!");
+      }
     }
   };
 

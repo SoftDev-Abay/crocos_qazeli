@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "https://qazeli-new-back-dev.crocos.kz",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
 export default http;

@@ -10,8 +10,10 @@ export default function AxiosProvider({
   const router = useRouter();
 
   const axiosInstance = useMemo(() => {
+    console.log(process.env.NEXT_PUBLIC_BASE_URL);
+
     const axiosInstance = axios.create({
-      baseURL: "https://qazeli-new-back-dev.crocos.kz",
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
       headers: {
         "Content-Type": "application/json",
       },

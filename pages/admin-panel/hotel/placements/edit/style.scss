@@ -1,0 +1,14 @@
+@use "../../../../../styles/colors.scss" as c;
+
+.placements-edit-page {
+  .form-card-content {
+    max-width: 900px;
+    .form-header {
+      font-family: Montserrat;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 29.26px;
+      margin-bottom: 20px;
+    }
+  }
+}

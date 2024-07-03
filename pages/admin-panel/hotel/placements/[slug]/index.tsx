@@ -132,7 +132,7 @@ const Page = ({ placementId }: { placementId: number }) => {
 
                     <Link
                       className="edit-link-wrappper"
-                      href={`/admin-panel/hotel/placement/edit/${placementId}`}
+                      href={`/admin-panel/hotel/placements/edit/${placementId}`}
                     >
                       <EditIcon color="#156cbd" width={20} height={20} />
                       <span>Редактировать</span>

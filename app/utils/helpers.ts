@@ -1,8 +1,12 @@
 import Cookies from "js-cookie";
 
-export const popOneRouteFromPath = (path: string): string => {
+export const popRouteFromPath = (path: string, count: number = 1): string => {
   const pathArray = path.split("/");
-  pathArray.pop();
+
+  for (let i = 0; i < count; i++) {
+    pathArray.pop();
+  }
+
   return pathArray.join("/");
 };
 

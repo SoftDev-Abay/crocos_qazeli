@@ -4,19 +4,25 @@ interface PageHeaderProps {
   buttons?: React.ReactNode[];
   title: string;
   goBack?: boolean;
+  goBackCount?: number;
 }
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
-import { popOneRouteFromPath } from "@/app/utils/helpers";
+import { popRouteFromPath } from "@/app/utils/helpers";
 import { usePathname, useRouter } from "next/navigation";
 import "./style.scss";
 
-const PageHeader = ({ buttons, title, goBack }: PageHeaderProps) => {
+const PageHeader = ({
+  buttons,
+  title,
+  goBack,
+  goBackCount = 1,
+}: PageHeaderProps) => {
   const pathname = usePathname(); // get current path
   const router = useRouter();
 
   const handleGoBack = () => {
     if (!pathname) return;
-    const newPath = popOneRouteFromPath(pathname);
+    const newPath = popRouteFromPath(pathname, goBackCount);
     router.push(newPath);
   };
 

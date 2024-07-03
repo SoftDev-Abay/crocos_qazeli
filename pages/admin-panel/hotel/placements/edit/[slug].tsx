@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@/app/components/Card/Card";
 import PageHeader from "@/app/components/PageHeader/PageHeader";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
@@ -28,56 +28,91 @@ import useAllRegions from "@/app/hooks/useAllRegions";
 import LocationInput from "@/app/components/LocationInput/LocationInput";
 import { UseUserStore } from "@/app/store/useUserStore";
 import { AxiosError } from "axios";
-import useFormSuccessAction from "@/app/hooks/useFormSuccessAction";
+import { GetServerSideProps } from "next";
+import usePlacement from "@/app/hooks/usePlacement";
 
-const Page = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let recordData;
+
+  try {
+    const { slug } = context.params as { slug: string };
+
+    if (!slug || isNaN(Number(slug)) || slug === "") {
+      return {
+        props: {
+          NotFound: true,
+        },
+      };
+    }
+
+    return {
+      props: {
+        placementID: Number(slug),
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return {
+      props: {
+        NotFound: true,
+      },
+    };
+  }
+};
+
+const Page = ({ placementID }: { placementID: number }) => {
   const axios = useAxios();
+
+  const {
+    data: placement,
+    isLoading: isLoadingPlacement,
+    isSuccess: isSuccessPlacement,
+  } = usePlacement(placementID);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
     control,
     setValue,
     reset,
   } = useForm<AddPlacementFormType>({
     resolver: yupResolver(AddPlacementFormSchema),
-    defaultValues: {
-      title: {
-        ru: "",
-        kz: "",
-        en: "",
-      },
-      description: {
-        ru: "",
-        kz: "",
-        en: "",
-      },
-      address: {
-        ru: "",
-        kz: "",
-        en: "",
-      },
-      phone: "",
-      email: "",
-      rating: 1,
-      lat: 0,
-      lon: 0,
-      region: undefined,
-      city_id: undefined,
-      placement_type_id: undefined,
-      gallery_images: [],
-    },
+    defaultValues: {},
   });
 
-  const { setButtonAction, handleSuccessAction } = useFormSuccessAction({
-    reset,
-    toastText: "Место размещения успешно добавлено",
-    fallBackUrl: "/admin-panel/hotel/placements",
-  });
-
-  // console log all values of the form
-  console.log("form-values", getValues());
+  useEffect(() => {
+    if (placement && isSuccessPlacement) {
+      reset({
+        title: {
+          ru: placement.ru.title,
+          kz: placement.kz.title,
+          en: placement.en.title,
+        },
+        description: {
+          ru: placement.ru.description,
+          kz: placement.kz.description,
+          en: placement.en.description,
+        },
+        address: {
+          ru: placement.ru.address,
+          kz: placement.kz.address,
+          en: placement.en.address,
+        },
+        phone: placement.ru.phone,
+        email: placement.ru.email,
+        foods: placement.ru.food_types.map((food) => food.id),
+        services: placement.ru.service_types.map((service) => service.id),
+        rating: placement.ru.rating,
+        lat: placement.ru.lat,
+        lon: placement.ru.lon,
+        placement_type_id: placement.ru.placement_type.id,
+        region: placement.ru.region.id,
+        city_id: placement.ru.city.id,
+        gallery_images: placement.ru.gallery_images,
+      });
+    }
+  }, [isSuccessPlacement]);
 
   const {
     data: foodTypes,
@@ -103,24 +138,44 @@ const Page = () => {
     error: errorRegions,
   } = useAllRegions({});
 
+  console.log(placement, placement?.ru);
+
   const onSubmit: SubmitHandler<AddPlacementFormType> = async (data) => {
     let formData = new FormData();
-    let images = [];
+    let images = [] as any[];
 
     try {
-      data.gallery_images?.map((item) => {
-        formData.append("content[]", item.file);
-      });
+      const nonLocalImages = data.gallery_images
+        ?.filter((item) => !item.local)
+        .map((item) => item.id) as any[];
 
-      const responce = await axios.post("/api/v1/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const localImages = data.gallery_images?.filter(
+        (item) => item.local
+      ) as any[];
 
-      images = responce.data.data.map((item) => item.id);
+      images = nonLocalImages;
 
-      toast.success("Изображения успешно загружены");
+      if (localImages.length > 0) {
+        data.gallery_images?.map((item) => {
+          if (item.local) {
+            formData.append("content[]", item.file);
+          }
+        });
+
+        const responce = await axios.post("/api/v1/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        const responceImgs = responce.data.data.map((item) => item.id) as any[];
+
+        images = [...images, ...responceImgs];
+
+        console.log("images", images);
+
+        toast.success("Изображения успешно загружены");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Произошла ошибка при загрузке изображений");
@@ -128,7 +183,7 @@ const Page = () => {
     }
 
     try {
-      const completeRoomData = {
+      const completeplacementData = {
         ru: {
           title: data.title.ru,
           description: data.description.ru,
@@ -161,9 +216,12 @@ const Page = () => {
         main_image_id: images[0],
       };
 
-      const response = await axios.post("/api/v1/placements", completeRoomData);
+      const response = await axios.patch(
+        `/api/v1/placements/${placementID}`,
+        completeplacementData
+      );
 
-      handleSuccessAction();
+      toast.success("Место размещения успешно изменено");
     } catch (error) {
       console.log(error);
 
@@ -174,7 +232,7 @@ const Page = () => {
       ) {
         toast.error(error.response.data.message);
       } else {
-        toast.error("Произошла ошибка при добавлении места размещения");
+        toast.error("Произошла ошибка при измении места размещения");
       }
     }
   };
@@ -223,14 +281,19 @@ const Page = () => {
           }))
       : [];
 
+  console.log(errors);
+
   return (
     <AdminWrapper>
-      <div className="rooms-add-page">
-        <PageHeader title="Добавить место размещения" goBack={true} />
+      <div className="placements-edit-page">
+        <PageHeader
+          title="Редактировать место размещения"
+          goBack={true}
+          goBackCount={2}
+        />
         <Card>
           <div className="form-card-content">
             <div className="form-header">Добавление отеля</div>
-
             <form onSubmit={handleSubmit(onSubmit)}>
               <InputGroup label="Название на русском">
                 <Input
@@ -254,29 +317,38 @@ const Page = () => {
                 />
               </InputGroup>
 
-              <InputGroup label="Описание на русском">
-                <TextEditor
-                  name="description.ru"
-                  control={control}
-                  error={errors.description?.ru?.message}
-                />
-              </InputGroup>
+              {placement?.ru.description && (
+                <InputGroup label="Описание на русском">
+                  <TextEditor
+                    name="description.ru"
+                    control={control}
+                    error={errors.description?.kz?.message}
+                    defaultValue={placement?.ru.description}
+                  />
+                </InputGroup>
+              )}
 
-              <InputGroup label="Описание на казахском">
-                <TextEditor
-                  name="description.kz"
-                  control={control}
-                  error={errors.description?.kz?.message}
-                />
-              </InputGroup>
+              {placement?.kz.description && (
+                <InputGroup label="Описание на казахском">
+                  <TextEditor
+                    name="description.kz"
+                    control={control}
+                    error={errors.description?.kz?.message}
+                    defaultValue={placement?.kz.description}
+                  />
+                </InputGroup>
+              )}
 
-              <InputGroup label="Описание на английском">
-                <TextEditor
-                  name="description.en"
-                  control={control}
-                  error={errors.description?.en?.message}
-                />
-              </InputGroup>
+              {placement?.en.description && (
+                <InputGroup label="Описание на английском">
+                  <TextEditor
+                    name="description.en"
+                    control={control}
+                    error={errors.description?.en?.message}
+                    defaultValue={placement?.en.description}
+                  />
+                </InputGroup>
+              )}
 
               <InputGroup label="Адрес на русском">
                 <Input
@@ -413,30 +485,9 @@ const Page = () => {
               </InputGroup>
 
               <InputGroup label="">
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Button
-                    size="sm"
-                    type="submit"
-                    onClick={() => {
-                      setButtonAction("save");
-                    }}
-                  >
-                    Добавить
-                  </Button>
-                  <Button
-                    size="sm"
-                    color="dark"
-                    onClick={() => {
-                      setButtonAction("saveMore");
-                    }}
-                  >
-                    Сохранить и добавить еще
+                <div>
+                  <Button size="sm" type="submit">
+                    Изменить
                   </Button>
                 </div>
               </InputGroup>

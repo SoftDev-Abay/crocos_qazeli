@@ -4,10 +4,13 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
+
   align-items: center;
   .info-wrapper {
-    display: flex;
-    gap: 70px;
+    display: grid;
+    gap: 50px;
+    grid-template-columns: repeat(5, 1fr);
+
     .data-item {
       .label {
         font-family: Montserrat;

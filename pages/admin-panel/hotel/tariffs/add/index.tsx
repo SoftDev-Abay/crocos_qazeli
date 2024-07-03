@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import useAllRooms from "@/app/hooks/useAllRooms";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import useFormSuccessAction from "@/app/hooks/useFormSuccessAction";
 
 const Page = () => {
   const axios = useAxios();
@@ -34,9 +35,23 @@ const Page = () => {
     reset,
   } = useForm<AddTariffFormType>({
     resolver: yupResolver(AddTariffFormSchema),
+    defaultValues: {
+      title: {
+        ru: "",
+        en: "",
+        kz: "",
+      },
+      percent: 0,
+      placement_id: undefined,
+      rooms: [],
+    },
   });
 
-  const buttonTypeRef = useRef<string | null>(null);
+  const { setButtonAction, handleSuccessAction } = useFormSuccessAction({
+    reset,
+    toastText: "Тарифф успешно добавлен",
+    fallBackUrl: "/admin-panel/hotel/tariffs",
+  });
 
   const placementId = watch("placement_id");
 
@@ -79,13 +94,7 @@ const Page = () => {
 
       const response = await axios.post("/api/v1/tariffs", completeRoomData);
 
-      if (buttonTypeRef.current === "add") {
-        toast.success("Тарифф успешно добавлен");
-        router.push("/admin-panel/hotel/tariffs");
-      } else if (buttonTypeRef.current === "addMore") {
-        toast.success("Тарифф успешно добавлен");
-        reset();
-      }
+      handleSuccessAction();
     } catch (error) {
       console.log(error);
 
@@ -110,10 +119,6 @@ const Page = () => {
     label: room.title,
     value: room.id,
   }));
-
-  const handleButtonClick = (type: string) => {
-    buttonTypeRef.current = type;
-  };
 
   return (
     <AdminWrapper>
@@ -188,7 +193,7 @@ const Page = () => {
                     size="sm"
                     type="submit"
                     onClick={() => {
-                      handleButtonClick("add");
+                      setButtonAction("save");
                     }}
                   >
                     Добавить
@@ -197,7 +202,7 @@ const Page = () => {
                     size="sm"
                     color="dark"
                     onClick={() => {
-                      handleButtonClick("addMore");
+                      setButtonAction("saveMore");
                     }}
                   >
                     Сохранить и добавить еще

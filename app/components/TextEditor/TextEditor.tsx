@@ -15,30 +15,30 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import React from "react";
+import React, { useEffect } from "react";
 import Toolbar from "./Toolbar/Toolbar";
 import "./style.scss";
-import { Controller } from "react-hook-form";
+import { Controller, useController } from "react-hook-form";
+
 const TextEditor = ({
-  description,
   control,
   name,
   error,
+  defaultValue,
 }: {
-  description?: string;
   control: any;
   name: string;
   error?: string;
+  defaultValue?: string;
 }) => {
   return (
     <Controller
       control={control}
       name={name}
-      defaultValue={description || ""}
       render={({ field }) => {
         const editor = useEditor({
           extensions: [StarterKit.configure(), Underline, Image],
-          content: description,
+          content: field.value || defaultValue || "",
           editorProps: {
             attributes: {
               class: "editor",

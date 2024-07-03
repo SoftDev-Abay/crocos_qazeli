@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Card from "@/app/components/Card/Card";
 import PageHeader from "@/app/components/PageHeader/PageHeader";
 import AdminWrapper from "@/app/pages/Wrappers/AdminPanel/Wrapper";
@@ -26,6 +26,8 @@ import DatePickerInput from "@/app/components/DatePickerInput/DatePickerInput";
 import { useAxios } from "@/app/context/AxiosContext";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+import useFormSuccessAction from "@/app/hooks/useFormSuccessAction";
 
 // Наименование на русском
 // Наименование на казахском
@@ -102,8 +104,44 @@ const Page = () => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<AddRoomFormType>({
     resolver: yupResolver(AddRoomFormSchema),
+    defaultValues: {
+      title: {
+        ru: "",
+        en: "",
+        kz: "",
+      },
+      description: {
+        ru: "",
+        en: "",
+        kz: "",
+      },
+      placement_id: undefined,
+      room_type_id: undefined,
+      gallery_images: [],
+      price: 0,
+      quantity: 0,
+      square: 0,
+      min_booking_period: 0,
+      smoking: false,
+      status: "active",
+      cot_quantity: 0,
+      cot_price: 0,
+      fine: 0,
+      cancellation_id: undefined,
+      check_in: undefined,
+      check_out: undefined,
+    },
+  });
+
+  const router = useRouter();
+
+  const { setButtonAction, handleSuccessAction } = useFormSuccessAction({
+    reset,
+    toastText: "Номер успешно добавлен",
+    fallBackUrl: "/admin-panel/hotel/rooms",
   });
 
   const { data: roomTypes, isLoading: isLoadingRoomTypes } = useAllToomTypes(
@@ -193,7 +231,7 @@ const Page = () => {
 
       const response = await axios.post("/api/v1/rooms", completeRoomData);
 
-      toast.success("Номер успешно добавлен");
+      handleSuccessAction();
     } catch (error) {
       console.log(error);
 
@@ -233,8 +271,6 @@ const Page = () => {
     label: cancelationType.time,
     value: cancelationType.id,
   }));
-
-  console.log(errors);
 
   return (
     <AdminWrapper>
@@ -463,10 +499,22 @@ const Page = () => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Button size="sm" type="submit">
+                  <Button
+                    size="sm"
+                    type="submit"
+                    onClick={() => {
+                      setButtonAction("save");
+                    }}
+                  >
                     Добавить
                   </Button>
-                  <Button size="sm" color="dark">
+                  <Button
+                    size="sm"
+                    color="dark"
+                    onClick={() => {
+                      setButtonAction("saveMore");
+                    }}
+                  >
                     Сохранить и добавить еще
                   </Button>
                 </div>

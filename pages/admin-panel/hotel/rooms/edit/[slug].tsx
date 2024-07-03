@@ -29,74 +29,6 @@ import { GetServerSideProps } from "next";
 import useRoom from "@/app/hooks/useRoom";
 import { AxiosError } from "axios";
 
-// Наименование на русском
-// Наименование на казахском
-// Наименование на английском
-// Описание на русском
-// Описание на казахском
-// Описание на английском
-// Размещение
-// Тип
-// Питание
-// Площадь номера
-// Стоимость
-// Минимальное кол-во дней для
-// бронирования
-// Комната для курящих
-// Количество детских кроваток О-3 лет
-// Цена за детскую кроватку за день 3-б лет
-// Штраф
-// Условия отмены
-// Время заезда
-// Время выезда
-// Удобства номера
-// Количество номеров подобного типа
-// Галерея
-
-// {
-//   "placement_id": 1,
-//   "room_type_id": 1,
-//   "gallery_images": [
-//     1,
-//     2,
-//     3
-//   ],
-//   "comforts": [
-//     1,
-//     2,
-//     3
-//   ],
-//   "food_types": [
-//     1,
-//     2,
-//     3
-//   ],
-//   "price": 150.75,
-//   "quantity": 1,
-//   "square": 25,
-//   "min_booking_period": 10,
-//   "smoking": true,
-//   "status": "active",
-//   "cot_quantity": 2,
-//   "cot_price": 20.5,
-//   "fine": 100.5,
-//   "cancellation_id": "1",
-//   "check_in": "2025-01-01T15:00:00",
-//   "check_out": "2025-01-01T15:00:00",
-//   "ru": {
-//     "title": "Заголовок на русском языке",
-//     "description": "Описание на русском языке"
-//   },
-//   "en": {
-//     "title": "Заголовок на английском языке",
-//     "description": "Описание на английском языке"
-//   },
-//   "kz": {
-//     "title": "Заголовок на казахском языке",
-//     "description": "Описание на казахском языке"
-//   }
-// }
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let recordData;
 
@@ -145,6 +77,7 @@ const Page = ({ roomID }: { roomID: number }) => {
     formState: { errors },
     control,
     reset,
+    setValue,
   } = useForm<AddRoomFormType>({
     resolver: yupResolver(AddRoomFormSchema),
     defaultValues: {},
@@ -337,7 +270,11 @@ const Page = ({ roomID }: { roomID: number }) => {
   return (
     <AdminWrapper>
       <div className="rooms-add-page">
-        <PageHeader title="Редактироание номера" goBack={true} />
+        <PageHeader
+          title="Редактироание номера"
+          goBack={true}
+          goBackCount={2}
+        />
         <Card>
           <div className="form-card-content">
             <div className="form-header">Добавление нового номера</div>
@@ -364,29 +301,38 @@ const Page = ({ roomID }: { roomID: number }) => {
                 />
               </InputGroup>
 
-              <InputGroup label="Описание на русском">
-                <TextEditor
-                  name="description.ru"
-                  control={control}
-                  error={errors.description?.kz?.message}
-                />
-              </InputGroup>
+              {room?.ru.description && (
+                <InputGroup label="Описание на русском">
+                  <TextEditor
+                    name="description.ru"
+                    control={control}
+                    error={errors.description?.kz?.message}
+                    defaultValue={room?.ru.description}
+                  />
+                </InputGroup>
+              )}
 
-              <InputGroup label="Описание на казахском">
-                <TextEditor
-                  name="description.kz"
-                  control={control}
-                  error={errors.description?.kz?.message}
-                />
-              </InputGroup>
+              {room?.kz.description && (
+                <InputGroup label="Описание на казахском">
+                  <TextEditor
+                    name="description.kz"
+                    control={control}
+                    error={errors.description?.kz?.message}
+                    defaultValue={room?.kz.description}
+                  />
+                </InputGroup>
+              )}
 
-              <InputGroup label="Описание на английском">
-                <TextEditor
-                  name="description.en"
-                  control={control}
-                  error={errors.description?.kz?.message}
-                />
-              </InputGroup>
+              {room?.en.description && (
+                <InputGroup label="Описание на английском">
+                  <TextEditor
+                    name="description.en"
+                    control={control}
+                    error={errors.description?.en?.message}
+                    defaultValue={room?.en.description}
+                  />
+                </InputGroup>
+              )}
 
               <InputGroup label="Площадь">
                 <Input

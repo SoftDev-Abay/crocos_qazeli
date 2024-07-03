@@ -14,16 +14,20 @@ const staticTabs = ["Rooms", "Users", "Bookings"];
 
 const itemLabels = [
   {
-    labelPath: "address",
-    label: "Адрес",
-  },
-  {
     labelPath: "title",
     label: "Название",
   },
   {
-    labelPath: "description",
-    label: "Описание",
+    labelPath: "city.title",
+    label: "Адрес",
+  },
+  {
+    labelPath: "rating",
+    label: "Рейтинг",
+  },
+  {
+    labelPath: "phone",
+    label: "Телефон",
   },
 
   {
@@ -81,7 +85,11 @@ const Page = () => {
                   item={placement}
                   labelPaths={itemLabels}
                   actions={{
-                    edit: () => {},
+                    edit: () => {
+                      router.push(
+                        `/admin-panel/hotel/placements/edit/${placement.id}`
+                      );
+                    },
                     delete: () => {
                       deletePlacement.mutate(placement.id);
                     },

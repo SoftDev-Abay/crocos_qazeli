@@ -121,8 +121,8 @@ export let AddPlacementFormSchema = object({
     kz: string(),
   }),
   rating: number().nullable().required("Field is required"),
-  lat: number().nullable().required("Field is required"),
-  lon: number().nullable().required("Field is required"),
+  lat: number().required("Field is required"),
+  lon: number().required("Field is required"),
   phone: string()
     .matches(
       phoneRegExp,
@@ -131,8 +131,10 @@ export let AddPlacementFormSchema = object({
     .required("requiredField"),
   email: string().email("Invalid email").required("requiredField"),
   gallery_images: array()
+    .required("Field is required")
     .min(1, "At least 1 image is required")
     .max(5, "No more than 5 images are allowed"),
+
   placement_type_id: number().required("Field is required"),
   foods: array().required("Field is required"),
   services: array().required("Field is required"),

@@ -11,24 +11,28 @@ import { useAxios } from "@/app/context/AxiosContext";
 import useDeleteRoom from "@/app/hooks/useDeleteRoom";
 import { useLoadingContext } from "@/app/context/LoadingContext";
 
-const staticTabs = ["Rooms", "Users", "Bookings"];
+const staticTabs = ["Rooms", "Room Types"];
 
 const itemLabels = [
   {
-    labelPath: "room_type.slug",
-    label: "Room Type",
+    labelPath: "room_type.title",
+    label: "Тип номера",
   },
   {
     labelPath: "title",
-    label: "Title",
+    label: "Название номера",
   },
   {
-    labelPath: "description",
-    label: "Description",
+    labelPath: "square",
+    label: "Площадь",
+  },
+  {
+    labelPath: "min_booking_period",
+    label: "Минимальный период бронирования",
   },
   {
     labelPath: "default_price",
-    label: "Default Price",
+    label: "Цена за номер",
   },
 ];
 
@@ -67,11 +71,11 @@ const Page = () => {
     <AdminWrapper>
       <>
         <PageHeader {...PageHeaderProps} />
-        {/* <Tabs
+        <Tabs
           currentTab={currentTab}
           tabs={staticTabs}
           setCurrentTab={setCurrentTab}
-        /> */}
+        />
         <div className="rooms-container">
           {!isLoadingRooms && data ? (
             data?.length > 0 ? (

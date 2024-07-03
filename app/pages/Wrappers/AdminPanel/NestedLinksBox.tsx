@@ -21,7 +21,7 @@ const NestedLinksBox: FC<NestedLinksBoxProps> = ({
   icon,
   ...rest
 }) => {
-  const [nestedOpen, setNestedOpen] = useState(false);
+  const [nestedOpen, setNestedOpen] = useState(true);
   const pathname = usePathname();
 
   const handleNestedOpen = () => {

@@ -71,8 +71,6 @@ const Page = ({ roomID }: { roomID: number }) => {
 
   const defaultValue = "Не указано";
 
-  console.log(data);
-
   return (
     <AdminWrapper>
       <>

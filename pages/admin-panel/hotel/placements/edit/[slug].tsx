@@ -140,7 +140,6 @@ const Page = ({ placementID }: { placementID: number }) => {
   } = useAllRegions({});
 
   const router = useRouter();
-  console.log(placement, placement?.ru);
 
   const onSubmit: SubmitHandler<AddPlacementFormType> = async (data) => {
     let formData = new FormData();
@@ -173,8 +172,6 @@ const Page = ({ placementID }: { placementID: number }) => {
         const responceImgs = responce.data.data.map((item) => item.id) as any[];
 
         images = [...images, ...responceImgs];
-
-        console.log("images", images);
 
         toast.success("Изображения успешно загружены");
       }

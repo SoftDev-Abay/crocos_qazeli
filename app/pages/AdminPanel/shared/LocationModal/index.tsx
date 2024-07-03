@@ -28,10 +28,11 @@ const LocationModal = ({
         <h3 className={styles.heading}>Укажите место на карте</h3>
         <YMaps>
           <Map
-            defaultState={{ center: [55.75, 37.57], zoom: 9 }}
+            defaultState={{ center: [51.1655, 71.4272], zoom: 9 }}
             onClick={handleMapClick}
             width="100%"
             height="400px"
+            zoom={4}
           >
             <Placemark geometry={coordinates} />
           </Map>

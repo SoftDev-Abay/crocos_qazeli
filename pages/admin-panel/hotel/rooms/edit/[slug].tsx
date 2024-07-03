@@ -110,8 +110,6 @@ const Page = ({ roomID }: { roomID: number }) => {
     error: errorPlacements,
   } = useAllPlacements({});
 
-  console.log("room", room?.ru);
-
   const onSubmit: SubmitHandler<AddRoomFormType> = async (data) => {
     let formData = new FormData();
     let images = [] as any[];
@@ -185,14 +183,10 @@ const Page = ({ roomID }: { roomID: number }) => {
         gallery_images: images,
       };
 
-      console.log("completeRoomData", completeRoomData);
-
       const response = await axios.patch(
         `/api/v1/rooms/${roomID}`,
         completeRoomData
       );
-
-      console.log("response patch room", response);
 
       toast.success("Номер успешно изменен");
       router.push("/admin-panel/hotel/rooms");
@@ -208,8 +202,6 @@ const Page = ({ roomID }: { roomID: number }) => {
       }
     }
   };
-
-  console.log("room.ru", room?.ru);
 
   useEffect(() => {
     if (room && isSuccessRoom) {
@@ -268,8 +260,6 @@ const Page = ({ roomID }: { roomID: number }) => {
     label: cancelationType.time,
     value: cancelationType.id,
   }));
-
-  console.log(errors);
 
   return (
     <AdminWrapper>

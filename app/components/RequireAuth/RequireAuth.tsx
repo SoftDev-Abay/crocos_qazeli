@@ -18,13 +18,6 @@ const RequireAuth: React.FC<RequireAuthProps> = ({
 
   const role = user?.role?.slug;
 
-  // console.log({
-  //   allowedRoles,
-  //   role,
-  //   user,
-  //   requiredRole: allowedRoles,
-  //   userIsAllowed: role && allowedRoles.includes(role),
-  // });
 
   useEffect(() => {
     setRendered(true);

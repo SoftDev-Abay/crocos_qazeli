@@ -23,9 +23,6 @@ const useDeleteRoom = () => {
       toast.error("Error deleting room");
       console.log("Error deleting room");
     },
-    onSettled: () => {
-      // setLoading(false); // Set loading to false after the API call is done
-    },
   });
 };
 

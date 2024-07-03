@@ -29,8 +29,6 @@ const Page = () => {
 
   const { currentUser } = UseUserStore.getState();
 
-  // console.log(currentUser);
-
   const {
     register,
     handleSubmit,

@@ -78,8 +78,6 @@ const Page = ({ placementId }: { placementId: number }) => {
     setIsLoading(isLoadingPlacement);
   }, [isLoadingPlacement]);
 
-  console.log(data);
-
   return (
     <AdminWrapper>
       <>

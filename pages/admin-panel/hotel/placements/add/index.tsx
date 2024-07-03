@@ -76,9 +76,6 @@ const Page = () => {
     fallBackUrl: "/admin-panel/hotel/placements",
   });
 
-  // console log all values of the form
-  console.log("form-values", getValues());
-
   const {
     data: foodTypes,
     isLoading: isLoadingFoodTypes,

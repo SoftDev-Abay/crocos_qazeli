@@ -50,19 +50,27 @@ const Documents = ({ control, error }) => {
       </p>
 
       <div className="img-container">
-        {fields.map(({ gallery_images_id, file, path }, index) => (
+        {fields.map(({ gallery_images_id, file, path }: any, index) => (
           <div key={gallery_images_id}>
             <Controller
               control={control}
               name={`gallery_images.${index}`}
               render={() => (
-                <img
-                  width={100}
-                  height={100}
-                  src={file ? URL.createObjectURL(file) : path}
-                  alt="document"
-                  onClick={() => remove(index)}
-                />
+                <div className="img-wrapper">
+                  <img
+                    width={100}
+                    height={100}
+                    src={file ? URL.createObjectURL(file) : path}
+                    alt="document"
+                  />
+
+                  <div
+                    className="close-icon-wrapper"
+                    onClick={() => remove(index)}
+                  >
+                    <CloseIcon width={22} height={22} />
+                  </div>
+                </div>
               )}
             />
           </div>

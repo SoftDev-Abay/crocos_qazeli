@@ -27,5 +27,31 @@
   .img-container {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
+
+    .img-wrapper {
+      position: relative;
+      img {
+        border-radius: 5px;
+      }
+
+      // on hover show close icon
+
+      .close-icon-wrapper {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+
+        box-shadow: 0px 0px 5px rgba(71, 71, 71, 0.1);
+      }
+
+      &:hover {
+        .close-icon-wrapper {
+          display: block;
+        }
+      }
+    }
   }
 }

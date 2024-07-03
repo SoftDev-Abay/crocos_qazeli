@@ -18,8 +18,6 @@ import useAllCancelationTypes from "@/app/hooks/useAllCancelationTypes";
 import useAllPlacements from "@/app/hooks/useAlPlacements";
 import Button from "@/app/components/Button/Button";
 import AdminSelect from "@/app/components/Select";
-import TextArea from "@/app/components/TextArea";
-import Notepad from "@/app/components/TextEditor/TextEditor";
 import TextEditor from "@/app/components/TextEditor/TextEditor";
 import Documents from "@/app/components/AddImagesContainer/AddImagesContainer";
 import DatePickerInput from "@/app/components/DatePickerInput/DatePickerInput";

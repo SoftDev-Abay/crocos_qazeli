@@ -31,7 +31,7 @@ const DatePickerInput = ({ control, name }: Props) => {
               timeFormat="HH:mm"
               timeIntervals={15}
               timeCaption="time"
-              dateFormat="yyyy-MM-dd h:mm aa"
+              dateFormat="h:mm aa"
             />
 
             {error && error.message && <InputErrorText error={error.message} />}

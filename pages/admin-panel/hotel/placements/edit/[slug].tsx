@@ -30,6 +30,7 @@ import { UseUserStore } from "@/app/store/useUserStore";
 import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
 import usePlacement from "@/app/hooks/usePlacement";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let recordData;
@@ -138,6 +139,7 @@ const Page = ({ placementID }: { placementID: number }) => {
     error: errorRegions,
   } = useAllRegions({});
 
+  const router = useRouter();
   console.log(placement, placement?.ru);
 
   const onSubmit: SubmitHandler<AddPlacementFormType> = async (data) => {
@@ -222,6 +224,8 @@ const Page = ({ placementID }: { placementID: number }) => {
       );
 
       toast.success("Место размещения успешно изменено");
+
+      router.push("/admin-panel/hotel/placements");
     } catch (error) {
       console.log(error);
 

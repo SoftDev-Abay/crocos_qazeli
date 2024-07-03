@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import { GetServerSideProps } from "next";
 import useRoom from "@/app/hooks/useRoom";
 import { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let recordData;
@@ -83,6 +84,8 @@ const Page = ({ roomID }: { roomID: number }) => {
     defaultValues: {},
   });
 
+  const router = useRouter();
+
   const {
     data: foodTypes,
     isLoading: isLoadingFoodTypes,
@@ -106,6 +109,8 @@ const Page = ({ roomID }: { roomID: number }) => {
     isLoading: isLoadingPlacements,
     error: errorPlacements,
   } = useAllPlacements({});
+
+  console.log("room", room?.ru);
 
   const onSubmit: SubmitHandler<AddRoomFormType> = async (data) => {
     let formData = new FormData();
@@ -138,8 +143,6 @@ const Page = ({ roomID }: { roomID: number }) => {
         const responceImgs = responce.data.data.map((item) => item.id) as any[];
 
         images = [...images, ...responceImgs];
-
-        console.log("images", images);
 
         toast.success("Изображения успешно загружены");
       }
@@ -192,6 +195,7 @@ const Page = ({ roomID }: { roomID: number }) => {
       console.log("response patch room", response);
 
       toast.success("Номер успешно изменен");
+      router.push("/admin-panel/hotel/rooms");
     } catch (error) {
       if (
         error instanceof AxiosError &&
@@ -233,8 +237,8 @@ const Page = ({ roomID }: { roomID: number }) => {
         food_types: room.ru.food_types.map((item) => item.id),
         comforts: room.ru.comfort_rooms.map((item) => item.id),
         cancellation_id: room.ru.room_settlement.cancellation.id,
-        check_in: new Date(),
-        check_out: new Date(),
+        check_in: new Date(room.ru.room_settlement.check_in),
+        check_out: new Date(room.ru.room_settlement.check_out),
         gallery_images: room.ru.gallery_images,
       });
     }
